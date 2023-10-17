@@ -30,6 +30,7 @@ public class Enemy_Base : MonoBehaviour
 
         if (health <= 0)
         {
+            GameObject.FindObjectOfType<Enemy_Spawner>().UpdateEnemyNumber(false);
             Destroy(gameObject);
         }
     }
