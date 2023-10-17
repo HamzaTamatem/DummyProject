@@ -6,7 +6,7 @@ public class Scrap : Collectible
     public XpLevel xpLevel = XpLevel.One;
     public float xpGain;
 
-    [SerializeField] private Image scrapImage;
+    [SerializeField] private SpriteRenderer scrapImage;
     [SerializeField] private Color levelOneColor;
     [SerializeField] private Color levelTwoColor;
     [SerializeField] private Color levelThreeColor;
@@ -49,5 +49,6 @@ public class Scrap : Collectible
     public void SetXpLevel(XpLevel _xpLevel)
     {
         xpLevel = _xpLevel;
+        SetUpScrapStats();
     }
 }

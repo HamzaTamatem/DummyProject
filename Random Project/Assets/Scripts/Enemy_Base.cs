@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Enemy_Base : MonoBehaviour
 {
+    public Collectible.XpLevel _xpLevel = Collectible.XpLevel.One;
+    
     //Refs
     Transform playerPos;
 
@@ -31,6 +33,7 @@ public class Enemy_Base : MonoBehaviour
         if (health <= 0)
         {
             GameObject.FindObjectOfType<Enemy_Spawner>().UpdateEnemyNumber(false);
+            ScrapSpawner.NewEnemyDied(_xpLevel, transform.position);
             Destroy(gameObject);
         }
     }
