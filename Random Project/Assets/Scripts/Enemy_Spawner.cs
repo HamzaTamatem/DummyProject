@@ -39,7 +39,7 @@ public class Enemy_Spawner : MonoBehaviour
 
         if(enemiesNumber < spawnCap)
         {
-            float randEnemy = Random.Range(0, 100);
+            float randEnemy = Random.Range(0, 99);
             int randPos = Random.Range(0, spawnPoses.Length);
 
             if(randEnemy <= enemyPersentage[0])

@@ -201,6 +201,8 @@ MonoBehaviour:
   enemyPersentage:
   - 20
   - 80
+  - 0
+  - 0
   maxSpawnTime: 0.5
   spawnCap: 100
 --- !u!4 &215861410
