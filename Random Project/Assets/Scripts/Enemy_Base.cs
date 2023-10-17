@@ -25,7 +25,8 @@ public class Enemy_Base : MonoBehaviour
 
     public void GetHit(float dmg)
     {
-        print("Reduce Health");
+        //print("Reduce Health");
+        health -= dmg;
 
         if (health <= 0)
         {
