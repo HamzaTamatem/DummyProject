@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void OnMovementPerformed(InputAction.CallbackContext obj)
     {
-        Debug.Log(obj.ReadValue<Vector2>());
+        // Debug.Log(obj.ReadValue<Vector2>());
         movementX = obj.ReadValue<Vector2>().x;
     }
 
@@ -66,7 +66,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        _rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
-
+        if (_rb.velocity.y == 0)
+        {
+            _rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
+        }
     }
 }
