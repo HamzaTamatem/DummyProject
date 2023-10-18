@@ -1,29 +1,32 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     
-    [SerializeField] private Rigidbody2D _rb;
-    [SerializeField] private Controls _controls;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
     
     private float movementX;
     private Vector2 movement;
+    private Controls controls;
 
     private void Awake()
     {
-        _controls = new Controls();
-        _rb = GetComponent<Rigidbody2D>();
+        controls = new Controls();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
     {
-        _controls.Enable();
-        _controls.Player.Move.performed += OnMovementPerformed;
-        _controls.Player.Move.canceled += OnMovementCanceled;
+        controls.Enable();
+        controls.Player.Move.performed += OnMovementPerformed;
+        controls.Player.Move.canceled += OnMovementCanceled;
     }
 
     void Update()
@@ -34,9 +37,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        _controls.Disable();
-        _controls.Player.Move.performed -= OnMovementPerformed;
-        _controls.Player.Move.canceled -= OnMovementCanceled;
+        controls.Disable();
+        controls.Player.Move.performed -= OnMovementPerformed;
+        controls.Player.Move.canceled -= OnMovementCanceled;
     }
     
     private void OnMovementPerformed(InputAction.CallbackContext obj)
@@ -61,14 +64,29 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        _rb.velocity = new Vector2(movementX * moveSpeed, _rb.velocity.y);
+        rb.velocity = new Vector2(movementX * moveSpeed, rb.velocity.y);
     }
 
     private void Jump()
     {
-        if (_rb.velocity.y == 0)
+        bool isGrounded = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0,groundLayer);
+        if (isGrounded)
         {
-            _rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
+
         }
+        // if (rb.velocity.y == 0)
+        // {
+        //     rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
+        // }
+    }
+
+    private void OnValidate()
+    {
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(groundCheck.position, 0.5f);
     }
 }
