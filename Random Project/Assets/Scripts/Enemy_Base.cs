@@ -47,7 +47,9 @@ public class Enemy_Base : MonoBehaviour
 
             print("Get Hit");
             StartCoroutine(CanDmg());
-            //col.GetHit(damage);
+            
+            // deal damage to the player
+            col.GetComponent<PlayerHealth>().TakeDamage(damage);
         }
     }
 
