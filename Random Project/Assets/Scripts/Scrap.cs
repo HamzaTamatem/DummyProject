@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class Scrap : Collectible
 {
     public XpLevel xpLevel = XpLevel.One;
-    public float xpGain;
+    public int xpGain;
 
     [SerializeField] private SpriteRenderer scrapImage;
     [SerializeField] private Color levelOneColor;
@@ -20,6 +20,7 @@ public class Scrap : Collectible
         if (other.CompareTag("Player"))
         {
             // TODO: Do something
+            XpManager.Instance.AddXp(xpGain);
             
             Destroy(gameObject);
         }
