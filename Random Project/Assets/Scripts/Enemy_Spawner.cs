@@ -37,8 +37,7 @@ public class Enemy_Spawner : MonoBehaviour
         {
             if (endTimer <= 0)
             {
-                print("End room");
-                endRoom = true;
+                EndRoom();
             }
             else
             {
@@ -113,8 +112,16 @@ public class Enemy_Spawner : MonoBehaviour
 
             if(enemiesNumber <= 0 && maxEnemyNumber <= 0)
             {
+                FindObjectOfType<RoomManager>().NextRoom();
                 print("End room");
             }
         }
+    }
+
+    private void EndRoom()
+    {
+        print("End room");
+        endRoom = true;
+        FindObjectOfType<RoomManager>().NextRoom();
     }
 }
