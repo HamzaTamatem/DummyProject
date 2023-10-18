@@ -6,6 +6,8 @@ public class XpManager : MonoBehaviour
 {
     [SerializeField] private Image xpBar;
     [SerializeField] private XpTable xpTable;
+
+    [SerializeField] private GameObject levelUpPopup;
     
     public int currentXp;
     public int requiredXp;
@@ -48,6 +50,8 @@ public class XpManager : MonoBehaviour
         currentLevel++;
         currentXp = 0;
         requiredXp = GetRequiredXp();
+        levelUpPopup.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     public void Init()
