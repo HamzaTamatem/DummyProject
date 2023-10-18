@@ -2,14 +2,24 @@ using UnityEngine;
 
 public class Enemy_Spawner : MonoBehaviour
 {
+
+    [Header("Enemy Spawn")]
     [SerializeField] GameObject[] enemies;
     [SerializeField] Transform[] spawnPoses;
     [SerializeField] float[] enemyPersentage;
 
+    [Header("Spawn Numbers")]
     [SerializeField] float maxSpawnTime;
+    [SerializeField] float endTimer;
     float spawnTime;
+
     [SerializeField] int spawnCap;
-    int enemiesNumber;
+    [SerializeField] int maxEnemyNumber;
+    [SerializeField] int enemiesNumber;
+
+    enum EndMethod { timer, maxNumber };
+    [SerializeField] EndMethod endMethod;
+    bool endRoom;
 
     private void Awake()
     {
@@ -18,7 +28,24 @@ public class Enemy_Spawner : MonoBehaviour
 
     private void Update()
     {
+        if (endRoom)
+            return;
+
         SpawnTimer();
+
+        if(endMethod == EndMethod.timer)
+        {
+            if (endTimer <= 0)
+            {
+                print("End room");
+                endRoom = true;
+            }
+            else
+            {
+                endTimer -= Time.deltaTime;
+            }
+        }
+        
     }
 
     private void SpawnTimer()
@@ -45,21 +72,32 @@ public class Enemy_Spawner : MonoBehaviour
             if(randEnemy <= enemyPersentage[0])
             {
                 Instantiate(enemies[0], spawnPoses[randPos].position, Quaternion.identity);
+                UpdateEnemyNumber(true);
             }
             else if(randEnemy <= enemyPersentage[1])
             {
                 Instantiate(enemies[1], spawnPoses[randPos].position, Quaternion.identity);
+                UpdateEnemyNumber(true);
             }
             else if (randEnemy <= enemyPersentage[2])
             {
                 Instantiate(enemies[2], spawnPoses[randPos].position, Quaternion.identity);
+                UpdateEnemyNumber(true);
             }
             else if (randEnemy <= enemyPersentage[3])
             {
                 Instantiate(enemies[3], spawnPoses[randPos].position, Quaternion.identity);
+                UpdateEnemyNumber(true);
             }
 
-            UpdateEnemyNumber(true);
+            if(endMethod == EndMethod.maxNumber)
+            {
+                maxEnemyNumber--;
+                if(maxEnemyNumber <= 0)
+                {
+                    endRoom = true;
+                }
+            }
         }
     }
 
@@ -72,6 +110,11 @@ public class Enemy_Spawner : MonoBehaviour
         else
         {
             enemiesNumber--;
+
+            if(enemiesNumber <= 0 && maxEnemyNumber <= 0)
+            {
+                print("End room");
+            }
         }
     }
 }
