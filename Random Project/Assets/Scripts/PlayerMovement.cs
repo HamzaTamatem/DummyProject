@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(movementX * moveSpeed, rb.velocity.y);
     }
 
-    private void Jump()
+    public void Jump()
     {
         bool isGrounded = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0,groundLayer);
         if (isGrounded)
