@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FireBall : MonoBehaviour
+public class FireBall : Projectile
 {
     Rigidbody2D rb => GetComponent<Rigidbody2D>();
 
@@ -12,6 +12,7 @@ public class FireBall : MonoBehaviour
 
     private void Awake()
     {
+        fireRate = 0;
         GetClosestEnemy(GameObject.FindGameObjectsWithTag("Enemy"));
 
         if(nearestEnemy != null)
@@ -54,4 +55,9 @@ public class FireBall : MonoBehaviour
             Destroy(gameObject);
         }
     }
+}
+
+public class Projectile : MonoBehaviour
+{
+    public float fireRate;
 }

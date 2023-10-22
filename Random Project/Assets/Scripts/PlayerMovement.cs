@@ -10,21 +10,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     
-    private float movementX;
-    private Vector2 movement;
-    private Controls controls;
+    private float _movementX;
+    private Vector2 _movement;
+    private Controls _controls;
 
     private void Awake()
     {
-        controls = new Controls();
+        _controls = new Controls();
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
     {
-        controls.Enable();
-        controls.Player.Move.performed += OnMovementPerformed;
-        controls.Player.Move.canceled += OnMovementCanceled;
+        _controls.Enable();
+        _controls.Player.Move.performed += OnMovementPerformed;
+        _controls.Player.Move.canceled += OnMovementCanceled;
     }
 
     void Update()
@@ -35,20 +35,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        controls.Disable();
-        controls.Player.Move.performed -= OnMovementPerformed;
-        controls.Player.Move.canceled -= OnMovementCanceled;
+        _controls.Disable();
+        _controls.Player.Move.performed -= OnMovementPerformed;
+        _controls.Player.Move.canceled -= OnMovementCanceled;
     }
     
     private void OnMovementPerformed(InputAction.CallbackContext obj)
     {
         // Debug.Log(obj.ReadValue<Vector2>());
-        movementX = obj.ReadValue<Vector2>().x;
+        _movementX = obj.ReadValue<Vector2>().x;
     }
 
     private void OnMovementCanceled(InputAction.CallbackContext obj)
     {
-        movementX = 0;
+        _movementX = 0;
     }
 
     private void GetPlayerInput()
@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        rb.velocity = new Vector2(movementX * moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(_movementX * moveSpeed, rb.velocity.y);
     }
 
     public void Jump()
@@ -71,16 +71,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
-
         }
-        // if (rb.velocity.y == 0)
-        // {
-        //     rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
-        // }
-    }
-
-    private void OnValidate()
-    {
     }
 
     private void OnDrawGizmos()

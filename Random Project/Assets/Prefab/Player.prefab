@@ -125,7 +125,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1623b0e7d69358f4c923006a6c0dd592, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -134,7 +134,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &2954378333462396445
 CircleCollider2D:
@@ -183,8 +183,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8359e85435c97cf42bfa889491ce88a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashColor: {r: 0.8867924, g: 0.11294055, b: 0.11294055, a: 1}
+  flashDuration: 0.1
+  _originalColor: {r: 0, g: 0, b: 0, a: 0}
   currentHealth: 0
-  maxHealth: 100
+  maxHealth: 10
+  recentlyTookDamage: 0
+  takingDamageInvulnerabilityDuration: 10
 --- !u!114 &7705565204235182187
 MonoBehaviour:
   m_ObjectHideFlags: 0
