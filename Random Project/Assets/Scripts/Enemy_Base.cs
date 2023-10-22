@@ -7,6 +7,7 @@ public class Enemy_Base : MonoBehaviour
     
     //Refs
     Transform playerPos;
+    [SerializeField] GameObject deathPar;
 
     //Attributes
     [SerializeField] float health,speed,damage;
@@ -34,6 +35,7 @@ public class Enemy_Base : MonoBehaviour
         {
             GameObject.FindObjectOfType<Enemy_Spawner>().UpdateEnemyNumber(false);
             ScrapSpawner.NewEnemyDied(_xpLevel, transform.position);
+            Instantiate(deathPar, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

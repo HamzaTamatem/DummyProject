@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _xpLevel: 0
+  deathPar: {fileID: 7494225069357126535, guid: bb13a6b3cf01afe4186159051c8c8bde, type: 3}
   health: 1
   speed: 2
   damage: 2
