@@ -21,6 +21,9 @@ public class Enemy_Spawner : MonoBehaviour
     [SerializeField] EndMethod endMethod;
     bool endRoom;
 
+    enum Prototype { prototype_1, prototype_2 };
+    [SerializeField] Prototype prototype;
+
     private void Awake()
     {
         spawnTime = maxSpawnTime;
@@ -112,7 +115,15 @@ public class Enemy_Spawner : MonoBehaviour
 
             if(enemiesNumber <= 0 && maxEnemyNumber <= 0)
             {
-                FindObjectOfType<RoomManager>().NextRoom();
+                if(prototype == Prototype.prototype_1)
+                {
+                    FindObjectOfType<RoomManager>().NextRoom();
+                }
+                else
+                {
+                    FindObjectOfType<ChallangeRoomManager>().OpenGate();
+                }
+                
                 print("End room");
             }
         }
@@ -122,6 +133,15 @@ public class Enemy_Spawner : MonoBehaviour
     {
         print("End room");
         endRoom = true;
-        FindObjectOfType<RoomManager>().NextRoom();
+        //FindObjectOfType<RoomManager>().NextRoom();
+
+        if (prototype == Prototype.prototype_1)
+        {
+            FindObjectOfType<RoomManager>().NextRoom();
+        }
+        else
+        {
+            FindObjectOfType<ChallangeRoomManager>().OpenGate();
+        }
     }
 }

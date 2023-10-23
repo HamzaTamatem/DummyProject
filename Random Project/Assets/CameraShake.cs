@@ -16,14 +16,14 @@ public class CameraShake : MonoBehaviour
         cam = Camera.main.transform;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (shouldShake)
         {
             if (duration > 0)
             {
                 cam.localPosition = startPos + Random.insideUnitSphere * power;
-                duration -= Time.deltaTime * slowTime;
+                duration -= Time.fixedDeltaTime * slowTime;
             }
             else
             {

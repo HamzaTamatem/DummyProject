@@ -36,7 +36,7 @@ public class Enemy_Base : MonoBehaviour
             GameObject.FindObjectOfType<Enemy_Spawner>().UpdateEnemyNumber(false);
             ScrapSpawner.NewEnemyDied(_xpLevel, transform.position);
             Instantiate(deathPar, transform.position, Quaternion.identity);
-            FindObjectOfType<CameraShake>().Shake(0.2f, 0.2f, 1);
+            FindObjectOfType<CinemaShake>().Shake(2f, 0.2f);
             Destroy(gameObject);
         }
     }
