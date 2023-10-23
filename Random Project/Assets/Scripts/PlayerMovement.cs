@@ -43,7 +43,22 @@ public class PlayerMovement : MonoBehaviour
     private void OnMovementPerformed(InputAction.CallbackContext obj)
     {
         // Debug.Log(obj.ReadValue<Vector2>());
-        _movementX = obj.ReadValue<Vector2>().x;
+        Vector2 input = obj.ReadValue<Vector2>();
+        input.Normalize();
+        _movementX = input.x;
+        Debug.Log(_movementX);
+        if (_movementX < 0)
+        {
+            _movementX /= _movementX * -1;
+        }
+        else if (_movementX > 0)
+        {
+            _movementX /= _movementX;
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void OnMovementCanceled(InputAction.CallbackContext obj)
