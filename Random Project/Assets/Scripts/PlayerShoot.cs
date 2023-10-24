@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,6 +7,16 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float timeBetweenShots = 1;
+    [SerializeField] private OnButtonDown shootButton;
+
+    public enum Prototype
+    {
+        None,
+        AimShoot,
+        MegaMan
+    }
+
+    public Prototype prototype = Prototype.None;
 
     private float timer = 0f;
     private bool isShooting;
@@ -30,10 +39,20 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
-        if (aimDirection.magnitude != 0 && isShooting == false)
+        if (prototype == Prototype.AimShoot)
         {
-            StartCoroutine(ShootCoroutine(timeBetweenShots));
+            if (aimDirection.magnitude != 0 && isShooting == false)
+            {
+                StartCoroutine(ShootCoroutine(timeBetweenShots));
+            }
+        } else if (prototype == Prototype.MegaMan)
+        {
+            if (!isShooting && shootButton.buttonIsHeld)
+            {
+                StartCoroutine(ShootCoroutine(timeBetweenShots));
+            }
         }
+        
     }
     
     private void OnDisable()
@@ -60,7 +79,13 @@ public class PlayerShoot : MonoBehaviour
     private void Shoot()
     {
         GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        newProjectile.GetComponent<Projectile>().direction = aimDirection;
+        if (prototype == Prototype.AimShoot)
+        {
+            newProjectile.GetComponent<Projectile>().direction = aimDirection;
+        } else if (prototype == Prototype.MegaMan)
+        {
+            newProjectile.GetComponent<Projectile>().direction = transform.right;
+        }
         newProjectile.SetActive(true);
     }
 

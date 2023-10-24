@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,10 +10,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float jumpPressedRememberTime;
+    [SerializeField] private float groundedRememberTime;
     
     private float _movementX;
     private Vector2 _movement;
     private Controls _controls;
+    private bool isFlipped;
+    private bool canJump = true;
+
+    private float jumpPressedRemember;
+    private float groundedRemember;
 
     private void Awake()
     {
@@ -31,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     {
         GetPlayerInput();
         MovePlayer();
+        HandlePlayerDirection();
     }
 
     private void OnDisable()
@@ -38,6 +47,29 @@ public class PlayerMovement : MonoBehaviour
         _controls.Disable();
         _controls.Player.Move.performed -= OnMovementPerformed;
         _controls.Player.Move.canceled -= OnMovementCanceled;
+    }
+
+    private void HandlePlayerDirection()
+    {
+        float flippedValue = transform.localScale.x;
+        if (transform.right.x > 0)
+        {
+            if (_movementX < 0)
+            {
+                transform.right *= -1;
+                // transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y,
+                //     transform.localScale.z);
+            }
+        }
+        else
+        {
+            if (_movementX > 0)
+            {
+                transform.right *= -1;
+                // transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y,
+                //     transform.localScale.z);
+            }
+        }
     }
     
     private void OnMovementPerformed(InputAction.CallbackContext obj)
@@ -69,10 +101,21 @@ public class PlayerMovement : MonoBehaviour
     private void GetPlayerInput()
     {
         // movementX = Input.GetAxisRaw("Horizontal");
+        jumpPressedRemember -= Time.deltaTime;
+        groundedRemember -= Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Jump();
+            if (canJump)
+            {
+                JumpRemember();
+            }
         }
+        Jump();
+    }
+
+    public void JumpRemember()
+    {
+        jumpPressedRemember = jumpPressedRememberTime;
     }
 
     private void MovePlayer()
@@ -83,10 +126,31 @@ public class PlayerMovement : MonoBehaviour
     public void Jump()
     {
         bool isGrounded = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0,groundLayer);
-        if (isGrounded)
+        if (isGrounded && canJump)
         {
-            rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
+            Debug.Log("Is grounded");
+            groundedRemember = groundedRememberTime;
         }
+        if (groundedRemember > 0 && jumpPressedRemember > 0 && canJump)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0f);
+            rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
+            jumpPressedRemember = 0f;
+            groundedRemember = 0f;
+            PauseJump(0.2f);
+        }
+    }
+
+    public IEnumerator PauseJumpCoroutine(float duration)
+    {
+        canJump = false;
+        yield return new WaitForSeconds(duration);
+        canJump = true;
+    }
+
+    public void PauseJump(float duration)
+    {
+        StartCoroutine(PauseJumpCoroutine(duration));
     }
 
     private void OnDrawGizmos()
