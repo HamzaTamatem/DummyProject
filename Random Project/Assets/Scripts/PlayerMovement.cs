@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     private float jumpPressedRemember;
     private float groundedRemember;
 
+    bool stopMove;
+
     private void Awake()
     {
         _controls = new Controls();
