@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _movement;
     private Controls _controls;
 
+    bool stopMove;
+
     private void Awake()
     {
         _controls = new Controls();
