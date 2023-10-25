@@ -11,7 +11,15 @@ public class MovingSurface : MonoBehaviour
         if (!something)
             return;
 
-        something.transform.Translate(direction * speed * Time.deltaTime);
+        if(something.transform.right.x < 0)
+        {
+            something.transform.Translate(-direction * speed * Time.deltaTime);
+        }
+        else
+        {
+            something.transform.Translate(direction * speed * Time.deltaTime);
+        }
+        
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
