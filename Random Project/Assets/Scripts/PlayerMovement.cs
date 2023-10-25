@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,12 +13,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpPressedRememberTime;
     [SerializeField] private float groundedRememberTime;
+    [SerializeField] [Range(0,1)] private float horizontalDamping;
+    
     
     private float _movementX;
     private Vector2 _movement;
     private Controls _controls;
     private bool isFlipped;
     private bool canJump = true;
+    
+    private bool isMoving; // to store if player is clicking any buttons at the moment or not
 
     private float jumpPressedRemember;
     private float groundedRemember;
@@ -35,12 +40,21 @@ public class PlayerMovement : MonoBehaviour
         _controls.Enable();
         _controls.Player.Move.performed += OnMovementPerformed;
         _controls.Player.Move.canceled += OnMovementCanceled;
+        MoveButton.OnMovePressed += Move;
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer();
     }
 
     void Update()
     {
+        jumpPressedRemember -= Time.deltaTime;
+        groundedRemember -= Time.deltaTime;
+        
         GetPlayerInput();
-        MovePlayer();
+        // MovePlayer();
         HandlePlayerDirection();
     }
 
@@ -49,6 +63,42 @@ public class PlayerMovement : MonoBehaviour
         _controls.Disable();
         _controls.Player.Move.performed -= OnMovementPerformed;
         _controls.Player.Move.canceled -= OnMovementCanceled;
+        MoveButton.OnMovePressed -= Move;
+    }
+
+    public void Move(float inputX)
+    {
+        _movementX = inputX;
+        Debug.Log(_movementX);
+        if (_movementX < 0)
+        {
+            _movementX /= _movementX * -1;
+        }
+        else if (_movementX > 0)
+        {
+            _movementX /= _movementX;
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public void Move(Vector2 input)
+    {
+        _movementX = input.x;
+        if (_movementX < 0)
+        {
+            _movementX /= _movementX * -1;
+        }
+        else if (_movementX > 0)
+        {
+            _movementX /= _movementX;
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void HandlePlayerDirection()
@@ -102,9 +152,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void GetPlayerInput()
     {
-        // movementX = Input.GetAxisRaw("Horizontal");
-        jumpPressedRemember -= Time.deltaTime;
-        groundedRemember -= Time.deltaTime;
+        // get movement input from movement buttons
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (canJump)
@@ -112,7 +161,8 @@ public class PlayerMovement : MonoBehaviour
                 JumpRemember();
             }
         }
-        Jump();
+#endif
+        TryJump();
     }
 
     public void JumpRemember()
@@ -122,23 +172,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+        // float horizontalVelocity = rb.velocity.x;
+        // horizontalVelocity += _movementX;
+        // horizontalVelocity *= Mathf.Pow(1f - horizontalDamping, Time.deltaTime * 10);
+        // rb.velocity = new Vector2(horizontalVelocity, rb.velocity.y);
         rb.velocity = new Vector2(_movementX * moveSpeed, rb.velocity.y);
     }
 
-    public void Jump()
+    public void TryJump()
     {
+        // ground check
         bool isGrounded = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0,groundLayer);
         if (isGrounded && canJump)
         {
-            Debug.Log("Is grounded");
+            // Debug.Log("Is grounded");
             groundedRemember = groundedRememberTime;
         }
         if (groundedRemember > 0 && jumpPressedRemember > 0 && canJump)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0f);
-            rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
             jumpPressedRemember = 0f;
             groundedRemember = 0f;
+            
+            rb.velocity = new Vector2(rb.velocity.x, 0f);
+            rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
+            
             PauseJump(0.2f);
         }
     }

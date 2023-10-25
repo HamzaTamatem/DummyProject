@@ -7,7 +7,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float timeBetweenShots = 1;
-    [SerializeField] private OnButtonDown shootButton;
+    [SerializeField] private ButtonInteraction shootButton;
 
     public enum Prototype
     {
