@@ -47,7 +47,7 @@ public class PlayerShoot : MonoBehaviour
             }
         } else if (prototype == Prototype.MegaMan)
         {
-            if (!isShooting && shootButton.buttonIsHeld)
+            if (!isShooting && shootButton.buttonIsHeld || Input.GetKeyDown(KeyCode.Return))
             {
                 StartCoroutine(ShootCoroutine(timeBetweenShots));
             }

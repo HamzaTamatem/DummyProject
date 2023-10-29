@@ -21,13 +21,13 @@ public class PlayerMovement : MonoBehaviour
     private Controls _controls;
     private bool isFlipped;
     private bool canJump = true;
-    
+
     private bool isMoving; // to store if player is clicking any buttons at the moment or not
 
     private float jumpPressedRemember;
     private float groundedRemember;
 
-    bool stopMove;
+    public bool pauseMovement;
 
     private void Awake()
     {
@@ -45,7 +45,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (!pauseMovement)
+        {
+            MovePlayer();
+        }
     }
 
     void Update()
@@ -130,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 input = obj.ReadValue<Vector2>();
         input.Normalize();
         _movementX = input.x;
-        Debug.Log(_movementX);
+        // Debug.Log(_movementX);
         if (_movementX < 0)
         {
             _movementX /= _movementX * -1;
@@ -215,5 +218,19 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, 0.5f);
+    }
+    
+    private IEnumerator PausePlayerMovementCoroutine(float duration)
+    {
+        // Debug.Log("Movement is paused.");
+        pauseMovement = true;
+        yield return new WaitForSeconds(duration);
+        // Debug.Log("Movement is resumed.");
+        pauseMovement = false;
+    }
+
+    public void PausePlayerMovement(float duration)
+    {
+        StartCoroutine(PausePlayerMovementCoroutine(duration));
     }
 }

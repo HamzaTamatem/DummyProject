@@ -109,6 +109,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  jumpPressedRememberTime: 0
+  groundedRememberTime: 0
+  horizontalDamping: 0
+  pauseMovement: 0
 --- !u!50 &1090122971371242272
 Rigidbody2D:
   serializedVersion: 4
@@ -189,7 +193,7 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 10
   recentlyTookDamage: 0
-  takingDamageInvulnerabilityDuration: 10
+  takingDamageInvulnerabilityDuration: 1
 --- !u!114 &7705565204235182187
 MonoBehaviour:
   m_ObjectHideFlags: 0

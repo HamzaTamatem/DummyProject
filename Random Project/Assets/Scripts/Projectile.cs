@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
 
     [SerializeField] private float lifetime;
     [SerializeField] private float damage;
+    [SerializeField] private GameObject onImpactParticlePrefab;
 
     private Rigidbody2D _rigidbody2D;
 
@@ -38,9 +39,10 @@ public class Projectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<Enemy_Base>().GetHit(damage);
+            // other.GetComponent<Enemy>().GetHit(damage);
+            Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
             Die(0);
-        }
+        } 
     }
 
     public void Die(float duration)
