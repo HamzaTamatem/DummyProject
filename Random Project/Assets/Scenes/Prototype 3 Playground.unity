@@ -32492,10 +32492,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1304081514188245550, guid: 67b300a864d5f4e6ab85671a0eb58393, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: 1697043783009528273, guid: 67b300a864d5f4e6ab85671a0eb58393, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.05
@@ -32536,21 +32532,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2092972503511942334, guid: 67b300a864d5f4e6ab85671a0eb58393, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4561129418151354312, guid: 67b300a864d5f4e6ab85671a0eb58393, type: 3}
       propertyPath: m_Name
       value: Suicidal Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 4940393067612229699, guid: 67b300a864d5f4e6ab85671a0eb58393, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5164780200681152090, guid: 67b300a864d5f4e6ab85671a0eb58393, type: 3}
-      propertyPath: explosionRadius
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -10,6 +10,9 @@ public class Patrol : MonoBehaviour
     [Tooltip("Game object will switch directions when hitting this layer.")]
     [SerializeField] private LayerMask layerMask;
 
+    [SerializeField] private Transform patrolCheckerUnder;
+    [SerializeField] private Transform patrolCheckRightLeft;
+
     private Rigidbody2D rb;
 
     private void Awake()
@@ -21,12 +24,15 @@ public class Patrol : MonoBehaviour
     {
         rb.velocity = dir * speed;
 
-        bool hit = Physics2D.Raycast(transform.GetChild(0).transform.position, dir, 1,layerMask);
+        bool hitHorizontal = Physics2D.Raycast(patrolCheckRightLeft.transform.position, dir, 1,layerMask);
+        bool hitUnder = Physics2D.Raycast(patrolCheckerUnder.position, -transform.up, 1, layerMask);
+        
+        Debug.DrawLine(patrolCheckerUnder.position, patrolCheckerUnder.position + new Vector3(0,-1,0));
 
-        if (hit)
+        if (hitHorizontal || !hitUnder)
         {
             dir = -dir;
-            transform.GetChild(0).transform.localScale = new Vector3(-transform.GetChild(0).transform.localScale.x, transform.GetChild(0).transform.localScale.y);
+            patrolCheckRightLeft.localScale = new Vector3(-patrolCheckRightLeft.localScale.x, patrolCheckRightLeft.localScale.y);
         }
     }
 }

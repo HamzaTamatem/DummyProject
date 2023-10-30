@@ -14,12 +14,13 @@ public class Flashable : MonoBehaviour
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        // Debug.Log(_spriteRenderer.gameObject.name);
     }
 
     private void Start()
     {
         _originalColor = _spriteRenderer.color;
-        Debug.Log(_originalColor.ToString());
+        // Debug.Log(_originalColor.ToString());
     }
 
     public IEnumerator FlashCoroutine()

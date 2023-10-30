@@ -233,4 +233,12 @@ public class PlayerMovement : MonoBehaviour
     {
         StartCoroutine(PausePlayerMovementCoroutine(duration));
     }
+
+    public void PushPlayerAwayFrom(Vector3 position, float forceMagnitude)
+    {
+        PausePlayerMovement(0.5f);
+        Vector2 directionVector = transform.position - position;
+        rb.velocity = Vector2.zero;
+        rb.AddForce(directionVector.normalized * forceMagnitude, ForceMode2D.Impulse);
+    }
 }

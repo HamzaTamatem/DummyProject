@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8529121011711622922}
   - component: {fileID: 2363802284504743152}
   - component: {fileID: 5034019692060378595}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4841,7 +4841,7 @@ GameObject:
   - component: {fileID: 1060741940550859990}
   - component: {fileID: 4290003977666545532}
   - component: {fileID: 6186139165581016803}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4858,7 +4858,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.9610195, y: 1.3042095, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8529121011711622922}
@@ -4992,6 +4992,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0}
   speed: 23
-  lifetime: 5
+  lifetime: 1
   damage: 2
   onImpactParticlePrefab: {fileID: 8872746433137069105, guid: 8e5d5596300e747bbba6b6a722f718ae, type: 3}
