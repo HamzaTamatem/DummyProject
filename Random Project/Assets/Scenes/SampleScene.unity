@@ -507,6 +507,7 @@ MonoBehaviour:
   maxEnemyNumber: 10
   enemiesNumber: 0
   endMethod: 1
+  prototype: 0
 --- !u!4 &215861410
 Transform:
   m_ObjectHideFlags: 0
@@ -804,6 +805,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  buttonUp:
+    m_PersistentCalls:
+      m_Calls: []
+  buttonIsHeld: 0
 --- !u!1 &372901409
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,6 +890,7 @@ MonoBehaviour:
   maxEnemyNumber: 10
   enemiesNumber: 0
   endMethod: 1
+  prototype: 0
 --- !u!1 &434445334
 GameObject:
   m_ObjectHideFlags: 0
@@ -9539,6 +9545,8 @@ MonoBehaviour:
   projectileSpawnPoint: {fileID: 1097062050}
   projectilePrefab: {fileID: 4855732184732812354, guid: a2a1d642368b14fe7b2173d6c43e5954, type: 3}
   timeBetweenShots: 1
+  shootButton: {fileID: 0}
+  prototype: 0
 --- !u!1 &1107092396
 GameObject:
   m_ObjectHideFlags: 0
@@ -9758,8 +9766,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7705565204235182187, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
+      propertyPath: fireRing
+      value: 
+      objectReference: {fileID: 7739652092972563397, guid: 43d083cd7be7d084f856ac6569b58822, type: 3}
+    - target: {fileID: 7705565204235182187, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705565204235182187, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
+      propertyPath: ringAttack
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705565204235182187, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
+      propertyPath: verticalFire
+      value: 
+      objectReference: {fileID: 437959303645971188, guid: 25d13142daf72534a8d9c56b971ffe41, type: 3}
+    - target: {fileID: 7705565204235182187, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
+      propertyPath: fireRingDesTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705565204235182187, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
+      propertyPath: verticalFireAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705565204235182187, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
+      propertyPath: startTimeBtwFireRing
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705565204235182187, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
+      propertyPath: startTimeBtwVerticalFire
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8266817470663185880, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
       propertyPath: jumpForce

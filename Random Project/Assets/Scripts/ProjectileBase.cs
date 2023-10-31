@@ -9,7 +9,7 @@ public class ProjectileBase : MonoBehaviour
 
     private void Awake()
     {
-        Destroy(gameObject, 10);
+        Destroy(gameObject, 5);
     }
 
     void FixedUpdate()
