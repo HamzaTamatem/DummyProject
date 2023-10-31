@@ -52,6 +52,10 @@ public class PlayerShoot : MonoBehaviour
                 StartCoroutine(ShootCoroutine(timeBetweenShots));
             }
         }
+        else
+        {
+            // Prototype.None (nothing to do)
+        }
         
     }
     
@@ -85,6 +89,10 @@ public class PlayerShoot : MonoBehaviour
         } else if (prototype == Prototype.MegaMan)
         {
             newProjectile.GetComponent<Projectile>().direction = transform.right;
+        }
+        else
+        {
+            
         }
         newProjectile.SetActive(true);
     }

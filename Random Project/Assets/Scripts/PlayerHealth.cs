@@ -14,7 +14,12 @@ public class PlayerHealth : Flashable
 
     public static event Action OnPlayerDeath;
     public static event Action OnPlayerDamaged;
-
+    
+    public override void Awake()
+    {
+        base.Awake();
+    }
+    
     private void OnEnable()
     {
         OnPlayerDamaged += Flash;
@@ -28,15 +33,19 @@ public class PlayerHealth : Flashable
         OnPlayerDamaged -= Flash;
     }
 
-    public override void Awake()
-    {
-        base.Awake();
-        HealthManager.instance.SetNumberOfHearts(maxHealth);
-    }
-
     public override void Start()
     {
         base.Start();
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.SetNumberOfHearts(currentHealth);
+            HealthManager.instance.Init();
+            HealthManager.instance.UpdateHearts(currentHealth);
+        }
+        else
+        {
+            Debug.LogWarning("There is no HealthManager in this scene.");
+        }
     }
 
     public void TakeDamage(int amount)

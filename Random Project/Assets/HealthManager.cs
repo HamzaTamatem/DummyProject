@@ -8,8 +8,8 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private GameObject heartPrefab;
     [SerializeField] private Transform heartParent;
 
-    private List<Image> _heartImages = new List<Image>();
-    private int _numberOfHearts;
+    private List<Image> heartImages = new List<Image>();
+    private int numberOfHearts;
 
     public static event Action<int> OnNumberOfHeartsChanged;
     public static HealthManager instance;
@@ -35,8 +35,8 @@ public class HealthManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Init();
-        UpdateHearts(_numberOfHearts);
+        // Init();
+        // UpdateHearts(numberOfHearts);
     }
 
     private void OnDisable()
@@ -46,15 +46,17 @@ public class HealthManager : MonoBehaviour
 
     public void SetNumberOfHearts(int amount)
     {
-        _numberOfHearts = amount;
+        numberOfHearts = amount;
     }
     
-    void Init()
+    public void Init()
     {
-        for (int i = 0; i < _numberOfHearts; i++)
+        for (int i = 0; i < numberOfHearts; i++)
         {
             AddCompleteHeart();
         }
+
+        Debug.Log($"List size of hearts: {heartImages.Count}");
     }
 
     public void AddCompleteHeart()
@@ -62,21 +64,21 @@ public class HealthManager : MonoBehaviour
         GameObject newImage = Instantiate(heartPrefab, heartParent);
         if (newImage.transform.GetChild(0).TryGetComponent(out Image image))
         {
-            _heartImages.Add(image);
+            heartImages.Add(image);
         }
     }
 
     public void UpdateHearts(int amount)
     {
-        _numberOfHearts = amount;
-        foreach (var img in _heartImages)
+        numberOfHearts = amount;
+        foreach (var img in heartImages)
         {
             img.enabled = false;
         }
 
         for (int i = 0; i < amount; i++)
         {
-            _heartImages[i].enabled = true;
+            heartImages[i].enabled = true;
         }
     }
 
