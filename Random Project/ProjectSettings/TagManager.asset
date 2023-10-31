@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - Enemy
+  - BlockBullet
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - UI
   - Ground
   - Player
-  - 
-  - 
+  - Projectile
+  - RoomTrigger
   - 
   - 
   - 

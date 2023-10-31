@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using DG.Tweening;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -20,22 +18,23 @@ public class BouncyEnemy : Enemy
     [SerializeField] private float explosionForce;
     [SerializeField] private GameObject legs;
     [SerializeField] private float forceMultiplier;
-    [SerializeField] private UnityEvent OnDestroy;
+    [SerializeField] private UnityEvent onDestroy;
 
     private AttackState _attackState = AttackState.None;
-    private Rigidbody2D _rb2d;
+    private Rigidbody2D _rb2d => GetComponent<Rigidbody2D>();
     private bool _isTriggered;
     private Vector2 _forceDirection;
-
-    private void Awake()
-    {
-        _rb2d= GetComponent<Rigidbody2D>();
-    }
+    
 
     private void Start()
     {
         ChangeState(AttackState.Patrol);
         Random.Range(0, 1);
+    }
+
+    private void OnDestroy()
+    {
+        onDestroy?.Invoke();
     }
 
     public void ChangeState(AttackState newState)
@@ -85,7 +84,7 @@ public class BouncyEnemy : Enemy
 
         // get random force to apply 
         // forceDirection = new Vector2(Random.Range(0f,1f), Random.Range(0f,1f));
-        _forceDirection = (FindObjectOfType<PlayerMovement>().transform.position - transform.localPosition).normalized;
+        _forceDirection = (FindObjectOfType<PlayerMovement>().transform.position - transform.position).normalized;
         
         _rb2d.gravityScale = 0;
 
@@ -98,9 +97,21 @@ public class BouncyEnemy : Enemy
         _rb2d.AddForce(_forceDirection * forceMultiplier, ForceMode2D.Impulse);
     }
 
-    public override void GetHit(float amount)
+    public override void TakeDamage(int amount)
     {
-        
+        Debug.Log(nameof(TakeDamage));
+        base.TakeDamage(amount);
+        if (currentHealth <= 0)
+        {
+            // make particle explosion
+            Instantiate(particleExlposionPrefab, transform.position, Quaternion.identity);
+            // destroy the game object
+            Destroy(transform.parent.gameObject);
+        }
+        else
+        {
+            Flash();
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other)
@@ -111,9 +122,13 @@ public class BouncyEnemy : Enemy
             other.GetComponent<PlayerHealth>().TakeDamage(damage);
             other.GetComponent<PlayerMovement>().PausePlayerMovement(0.5f);
         }
-        else
+        else if (other.gameObject.layer == 6)
         {
             Debug.Log($"OnTriggerred with a non-player. {other.gameObject.name}");
+        }
+        else
+        {
+            return;
         }
         
         // make particle explosion
@@ -137,9 +152,8 @@ public class BouncyEnemy : Enemy
             }
         }
 
-        Debug.Log($"Destroying {gameObject.name}");
-        OnDestroy?.Invoke();
-        Destroy(gameObject);
+        // Debug.Log($"Destroying {gameObject.name}");
+        Destroy(transform.parent.gameObject);
     }
 
     private void OnDrawGizmos()

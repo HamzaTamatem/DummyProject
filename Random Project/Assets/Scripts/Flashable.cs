@@ -11,15 +11,16 @@ public class Flashable : MonoBehaviour
     public Color _originalColor;
     private SpriteRenderer _spriteRenderer;
 
-    private void Awake()
+    public virtual void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        // Debug.Log(_spriteRenderer.gameObject.name);
     }
 
-    private void Start()
+    public virtual void Start()
     {
         _originalColor = _spriteRenderer.color;
-        Debug.Log(_originalColor.ToString());
+        // Debug.Log(_originalColor.ToString());
     }
 
     public IEnumerator FlashCoroutine()
@@ -32,6 +33,8 @@ public class Flashable : MonoBehaviour
 
     public void Flash()
     {
+        _spriteRenderer.color = _originalColor;
+        StopAllCoroutines();
         StartCoroutine(FlashCoroutine());
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Boss_1 : MonoBehaviour
+public class Boss_1 : Enemy
 {
     enum State { Idle, Jump, Dash, HitGround }
     State state;
@@ -41,8 +41,9 @@ public class Boss_1 : MonoBehaviour
 
     [SerializeField] int[] actionSpamNumber;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
         direction.x = 1;
 
@@ -248,5 +249,14 @@ public class Boss_1 : MonoBehaviour
         currentIdleTime = idleTime;
         state = State.Idle;
         stopSetValue = false;
+    }
+
+    public override void TakeDamage(int amount)
+    {
+        base.TakeDamage(amount);
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

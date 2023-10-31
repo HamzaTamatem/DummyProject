@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour
     public float speed;
 
     [SerializeField] private float lifetime;
-    [SerializeField] private float damage;
+    [SerializeField] private int damage;
     [SerializeField] private GameObject onImpactParticlePrefab;
 
     private Rigidbody2D _rigidbody2D;
@@ -39,14 +39,24 @@ public class Projectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            // other.GetComponent<Enemy>().GetHit(damage);
+            other.GetComponent<Enemy>().TakeDamage(damage);
             Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
             Die(0);
-        } 
+        } else if (other.CompareTag("BlockBullet"))
+        {
+            Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
+            Die(0);
+        }
+        else
+        {
+            Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
+            Die(0);
+        }
     }
 
     public void Die(float duration)
     {
+        StopAllCoroutines();
         StartCoroutine(DieCoroutine(duration));
     }
 
@@ -54,5 +64,5 @@ public class Projectile : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         Destroy(gameObject);
-    } 
+    }
 }

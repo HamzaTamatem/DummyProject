@@ -1,13 +1,27 @@
+using System;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+[RequireComponent(typeof(GiveDamage))]
+public abstract class Enemy : Flashable
 {
-    public float damage;
-    public abstract void GetHit(float amount);
+    public int damage;
+    public int currentHealth;
+    
+    [SerializeField] private int maxHealth;
+    // public abstract void GetHit(int amount);
 
-    public void DoSomething()
+    private void OnEnable()
     {
+        currentHealth = maxHealth;
+    }
+
+    public virtual void TakeDamage(int amount)
+    {
+        Debug.Log(nameof(TakeDamage));
+        currentHealth -= amount;
         
+        Flash();
+        Debug.Log($"Current health is: {currentHealth}");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
