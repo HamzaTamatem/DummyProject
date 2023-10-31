@@ -10,7 +10,8 @@ public class Enemy_Base : MonoBehaviour
     [SerializeField] GameObject deathPar;
 
     //Attributes
-    [SerializeField] float health,speed,damage;
+    [SerializeField] float health,speed;
+    [SerializeField] private int damage;
     bool stopDmg;
 
     void Awake()

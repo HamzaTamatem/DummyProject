@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public class GiveDamage : MonoBehaviour
 {
-    [SerializeField] float damage;
+    [SerializeField] int damage;
     
     public Tilemap tilemap;
 

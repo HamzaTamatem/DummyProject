@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class PlayerHealth : Flashable
 {
 
-    public float currentHealth;
+    public int currentHealth;
 
-    [SerializeField] private float maxHealth;
+    [SerializeField] [Range(1,10)] private int maxHealth;
     [SerializeField] private bool recentlyTookDamage = false;
     [SerializeField] private float takingDamageInvulnerabilityDuration = 10f;
 
@@ -28,7 +28,18 @@ public class PlayerHealth : Flashable
         OnPlayerDamaged -= Flash;
     }
 
-    public void TakeDamage(float amount)
+    public override void Awake()
+    {
+        base.Awake();
+        HealthManager.instance.SetNumberOfHearts(maxHealth);
+    }
+
+    public override void Start()
+    {
+        base.Start();
+    }
+
+    public void TakeDamage(int amount)
     {
         // if the player recently took damage, they are currently invulnerable for some time
         if (recentlyTookDamage)
@@ -38,6 +49,7 @@ public class PlayerHealth : Flashable
         
         currentHealth -= amount;
         OnPlayerDamaged?.Invoke();
+        HealthManager.UpdateNumberOfHearts(currentHealth);
         PauseTakingDamage();
 
         if (currentHealth <= 0)

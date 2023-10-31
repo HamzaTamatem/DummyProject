@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(GiveDamage))]
 public abstract class Enemy : Flashable
 {
-    public float damage;
+    public int damage;
     public int currentHealth;
     
     [SerializeField] private int maxHealth;
@@ -19,6 +19,8 @@ public abstract class Enemy : Flashable
     {
         Debug.Log(nameof(TakeDamage));
         currentHealth -= amount;
+        
+        Flash();
         Debug.Log($"Current health is: {currentHealth}");
     }
 
