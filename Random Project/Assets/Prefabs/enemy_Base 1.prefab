@@ -133,8 +133,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c53b735801e574da8964e6529bea6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
+  _originalColor: {r: 0.2509804, g: 0.87843144, b: 0.8470589, a: 1}
   _xpLevel: 1
   deathPar: {fileID: 7494225069357126535, guid: bb13a6b3cf01afe4186159051c8c8bde, type: 3}
-  health: 1
+  health: 2
   speed: 3
   damage: 1

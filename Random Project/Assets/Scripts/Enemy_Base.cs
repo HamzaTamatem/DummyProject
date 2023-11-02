@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class Enemy_Base : MonoBehaviour
+public class Enemy_Base : Flashable
 {
     public Collectible.XpLevel _xpLevel = Collectible.XpLevel.One;
     
@@ -10,13 +11,23 @@ public class Enemy_Base : MonoBehaviour
     [SerializeField] GameObject deathPar;
 
     //Attributes
-    [SerializeField] float health,speed;
+    [SerializeField] private int health;
+    [SerializeField] float speed;
     [SerializeField] private int damage;
+    
+    [SerializeField] private float speedLevelUpRate;
+    [SerializeField] private float healthLevelUpRate;
     bool stopDmg;
 
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    private void OnEnable()
+    {
+        XpManager.OnPlayerLevelUp += LevelUpSpeed;
     }
 
     void Update()
@@ -27,7 +38,12 @@ public class Enemy_Base : MonoBehaviour
         }
     }
 
-    public void GetHit(float dmg)
+    private void OnDisable()
+    {
+        XpManager.OnPlayerLevelUp -= LevelUpSpeed;
+    }
+
+    public void GetHit(int dmg)
     {
         //print("Reduce Health");
         health -= dmg;
@@ -39,6 +55,10 @@ public class Enemy_Base : MonoBehaviour
             Instantiate(deathPar, transform.position, Quaternion.identity);
             FindObjectOfType<CinemaShake>().Shake(2f, 0.2f);
             Destroy(gameObject);
+        }
+        else
+        {
+            Flash();
         }
     }
 
@@ -63,4 +83,14 @@ public class Enemy_Base : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         stopDmg = false;
     }
+
+    private void LevelUpSpeed()
+    {
+        speed += speedLevelUpRate;
+    }
+
+    // private void LevelUpHealth()
+    // {
+    //     health += healthLevelUpRate;
+    // }
 }

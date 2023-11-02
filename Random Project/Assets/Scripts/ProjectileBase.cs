@@ -31,11 +31,11 @@ public class ProjectileBase : MonoBehaviour
         rb.velocity = transform.up * currentSpeed;
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.layer == 6)
-        {
-            Destroy(gameObject);
-        }
-    }
+    // private void OnTriggerEnter2D(Collider2D col)
+    // {
+    //     if (col.gameObject.layer == 6)
+    //     {
+    //         Destroy(gameObject);
+    //     }
+    // }
 }

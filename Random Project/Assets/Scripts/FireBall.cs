@@ -6,7 +6,7 @@ public class FireBall : MonoBehaviour
 
     //Attributes
     [SerializeField] float speed;
-    [SerializeField] float damage;
+    [SerializeField] int damage;
 
     GameObject nearestEnemy;
 

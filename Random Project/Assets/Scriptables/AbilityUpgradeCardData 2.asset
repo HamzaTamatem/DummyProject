@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64096be0f2f72461e9824bc3fbc8bae8, type: 3}
+  m_Name: AbilityUpgradeCardData 2
+  m_EditorClassIdentifier: 
+  upgradeId: 2
+  onUpgrade:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7705565204235182187, guid: d10edd29db15f704793fefd3eb1f55dd, type: 3}
+        m_TargetAssemblyTypeName: ShootingBase, Assembly-CSharp
+        m_MethodName: EnableVerticalAttack
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  abilityTitle: Fireball
+  abilityDescription: Shoots closest enemy
+  abilityLevelRequirement: 1
+  abilitySprite: {fileID: 21300000, guid: 91294de4112b4334093eb6b429682cf8, type: 3}
+  ability: 1
