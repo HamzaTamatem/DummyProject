@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy_Spawner : MonoBehaviour
 {
@@ -29,6 +31,11 @@ public class Enemy_Spawner : MonoBehaviour
         spawnTime = maxSpawnTime;
     }
 
+    private void OnEnable()
+    {
+        XpManager.OnPlayerLevelUp += LevelUp;
+    }
+
     private void Update()
     {
         if (endRoom)
@@ -48,6 +55,11 @@ public class Enemy_Spawner : MonoBehaviour
             }
         }
         
+    }
+
+    private void OnDisable()
+    {
+        XpManager.OnPlayerLevelUp -= LevelUp;
     }
 
     private void SpawnTimer()
@@ -143,5 +155,10 @@ public class Enemy_Spawner : MonoBehaviour
         {
             FindObjectOfType<ChallangeRoomManager>().OpenGate();
         }
+    }
+
+    private void LevelUp()
+    {
+        maxSpawnTime -= 0.1f;
     }
 }

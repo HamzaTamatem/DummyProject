@@ -6,13 +6,12 @@ public class XpManager : MonoBehaviour
 {
     [SerializeField] private Image xpBar;
     [SerializeField] private XpTable xpTable;
-
-    [SerializeField] private GameObject levelUpPopup;
     
     public int currentXp;
     public int requiredXp;
     public int currentLevel = 0;
 
+    public static event Action OnPlayerLevelUp;
     public static XpManager Instance;
 
     private void Awake()
@@ -34,7 +33,7 @@ public class XpManager : MonoBehaviour
 
     public void AddXp(int amount)
     {
-        Debug.Log(nameof(AddXp));
+        // Debug.Log(nameof(AddXp));
         currentXp += amount;
         if (currentXp > requiredXp)
         {
@@ -50,7 +49,7 @@ public class XpManager : MonoBehaviour
         currentLevel++;
         currentXp = 0;
         requiredXp = GetRequiredXp();
-        levelUpPopup.SetActive(true);
+        OnPlayerLevelUp?.Invoke();
         Time.timeScale = 0f;
     }
 
