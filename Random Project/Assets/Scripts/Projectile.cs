@@ -39,7 +39,10 @@ public class Projectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<Enemy>().TakeDamage(damage);
+            if (other.TryGetComponent(out Enemy enemy))
+            {
+                enemy.TakeDamage(damage);
+            }
             Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
             Die(0);
         } else if (other.CompareTag("BlockBullet"))

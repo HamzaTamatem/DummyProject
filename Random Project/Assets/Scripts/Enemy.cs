@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(GiveDamage))]
@@ -8,6 +7,8 @@ public abstract class Enemy : Flashable
     public int currentHealth;
     
     [SerializeField] private int maxHealth;
+
+    [SerializeField] private GameObject deathParticles;
     // public abstract void GetHit(int amount);
 
     private void OnEnable()
@@ -30,5 +31,10 @@ public abstract class Enemy : Flashable
         {
             other.GetComponent<PlayerHealth>().TakeDamage(damage);
         }
+    }
+
+    public void ProduceParticles()
+    {
+        Instantiate(deathParticles, transform.position, Quaternion.identity);
     }
 }

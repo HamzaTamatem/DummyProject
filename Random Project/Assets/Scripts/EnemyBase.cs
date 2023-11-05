@@ -6,7 +6,8 @@ public class EnemyBase : Enemy
         if (currentHealth <= 0)
         {
             Destroy(gameObject);
+            ProduceParticles();
         }
     }
-    
+
 }

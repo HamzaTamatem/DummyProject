@@ -140,9 +140,10 @@ MonoBehaviour:
   flashColor: {r: 0, g: 0, b: 0, a: 0}
   flashDuration: 0
   _originalColor: {r: 0, g: 0, b: 0, a: 0}
-  damage: 4
+  damage: 1
   currentHealth: 1
   maxHealth: 1
+  deathParticles: {fileID: 8364377885411448935, guid: 409738b824d18f4478e457611bd91034, type: 3}
   particleExlposionPrefab: {fileID: 8872746433137069105, guid: dbc666b749ed54f8cae437f535198334, type: 3}
   explosionRadius: 2
   explosionForce: 20
@@ -236,7 +237,7 @@ GameObject:
   - component: {fileID: 2562072850331551188}
   - component: {fileID: 3514979041455434148}
   - component: {fileID: 2092972503511942334}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Range
   m_TagString: Untagged
   m_Icon: {fileID: 0}

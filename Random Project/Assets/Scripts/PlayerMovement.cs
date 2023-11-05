@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private float groundedRemember;
 
     public bool pauseMovement;
+    public static bool pauseInput;
 
     private void Awake()
     {
@@ -240,5 +241,23 @@ public class PlayerMovement : MonoBehaviour
         Vector2 directionVector = transform.position - position;
         rb.velocity = Vector2.zero;
         rb.AddForce(directionVector.normalized * forceMagnitude, ForceMode2D.Impulse);
+    }
+
+    private IEnumerator FreezePlayerCoroutine(float duration)
+    {
+        float originalSpeed = moveSpeed;
+        
+        _controls.Disable();
+        pauseInput = true;
+        moveSpeed = 0;
+        yield return new WaitForSeconds(duration);
+        _controls.Enable();
+        pauseInput = false;
+        moveSpeed = originalSpeed;
+    }
+
+    public void FreezePlayer(float duration)
+    {
+        StartCoroutine(FreezePlayerCoroutine(duration));
     }
 }

@@ -16,6 +16,12 @@ public class CloseGate : MonoBehaviour
             if (stopDetect)
                 return;
 
+            
+            // pause player movement & input
+            PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+            // playerMovement.PausePlayerMovement(shakeTime);
+            playerMovement.FreezePlayer(shakeTime);
+            // playerMovement.PausePlayerInput(shakeTime);
             OpenCloseGates();
             stopDetect = true;
             FindObjectOfType<CinemaShake>().Shake(shakePower, shakeTime);
