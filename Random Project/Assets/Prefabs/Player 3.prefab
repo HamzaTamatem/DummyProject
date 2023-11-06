@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 7759343150275582171}
   - component: {fileID: 2278787755935008497}
   - component: {fileID: 7601834504490645056}
+  - component: {fileID: 6073485220181297521}
   m_Layer: 0
   m_Name: Player 3
   m_TagString: Player
@@ -228,6 +229,8 @@ MonoBehaviour:
     m_Bits: 64
   jumpPressedRememberTime: 0.2
   groundedRememberTime: 0.2
+  horizontalDamping: 0
+  pauseMovement: 0
 --- !u!50 &2656225601561371248
 Rigidbody2D:
   serializedVersion: 4
@@ -308,7 +311,7 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 10
   recentlyTookDamage: 0
-  takingDamageInvulnerabilityDuration: 10
+  takingDamageInvulnerabilityDuration: 1
 --- !u!114 &2278787755935008497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,8 +324,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390a04f875f9083419cdab25080c0554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireballData:
+    fireRate: 0
+    fireRateLevelUpRate: 0
+    lifetime: 0
+    lifetimeLevelUpRate: 0
+    level: 0
+    timer: 0
+    isUnlocked: 0
   fireball: {fileID: 4855732184732812354, guid: 1967f0efb6e301b408c024ce8977019d, type: 3}
-  startTimeBtwShoots: 1
+  fireRingData:
+    fireRate: 0
+    fireRateLevelUpRate: 0
+    lifetime: 0
+    lifetimeLevelUpRate: 0
+    level: 0
+    timer: 0
+    isUnlocked: 0
+  fireRing: {fileID: 0}
+  verticalAttackData:
+    fireRate: 0
+    fireRateLevelUpRate: 0
+    lifetime: 0
+    lifetimeLevelUpRate: 0
+    level: 0
+    timer: 0
+    isUnlocked: 0
+  verticalFire: {fileID: 0}
 --- !u!114 &7601834504490645056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,3 +368,15 @@ MonoBehaviour:
   timeBetweenShots: 0.5
   shootButton: {fileID: 0}
   prototype: 2
+--- !u!114 &6073485220181297521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7888779941779427433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 024fa6a30c19f415594fdeb3cc6b879d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
