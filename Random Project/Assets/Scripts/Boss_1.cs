@@ -96,7 +96,7 @@ public class Boss_1 : Enemy
             int randMove = UnityEngine.Random.Range(1, Enum.GetValues(typeof(State)).Length);
             currentIdleTime = idleTime;
 
-            if(actionSpamNumber[randMove] >= 3)
+            if(actionSpamNumber[randMove] >= 2)
             {
                 randMove = UnityEngine.Random.Range(1, Enum.GetValues(typeof(State)).Length);
             }
