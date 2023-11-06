@@ -39,6 +39,8 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
+        if (PlayerMovement.pauseInput) return;
+        
         if (prototype == Prototype.AimShoot)
         {
             if (aimDirection.magnitude != 0 && isShooting == false)

@@ -156,6 +156,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void GetPlayerInput()
     {
+        if (pauseInput) return;
+        
         // get movement input from movement buttons
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space))
