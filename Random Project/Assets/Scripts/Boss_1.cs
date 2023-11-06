@@ -252,6 +252,7 @@ public class Boss_1 : Enemy
         state = State.Idle;
         stopSetValue = false;
         startProjectileMachine = false;
+        stopHitGround = false;
     }
 
     public override void TakeDamage(int amount)
