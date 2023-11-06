@@ -82,7 +82,7 @@ public class Boss_1 : Enemy
 
             case State.HitGround:
 
-                print("HitGround");
+                //print("HitGround");
                 HitGroundUpdate();
 
                 break;
@@ -222,6 +222,7 @@ public class Boss_1 : Enemy
                     }
 
                     FindObjectOfType<CinemaShake>().Shake(5, 0.5f);
+                    StopCoroutine(CanHitGround());
                     StartCoroutine(CanHitGround());
                     startProjectileMachine = false;
                 }
@@ -246,9 +247,11 @@ public class Boss_1 : Enemy
 
     private void BackToIdle()
     {
+        rb.velocity = Vector2.zero;
         currentIdleTime = idleTime;
         state = State.Idle;
         stopSetValue = false;
+        startProjectileMachine = false;
     }
 
     public override void TakeDamage(int amount)
