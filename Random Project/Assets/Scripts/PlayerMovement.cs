@@ -14,8 +14,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpPressedRememberTime;
     [SerializeField] private float groundedRememberTime;
     [SerializeField] [Range(0,1)] private float horizontalDamping;
-    
-    
+    [SerializeField] private float wallSlidingSpeed;
+    [SerializeField] private float distanceToTriggerWallSlide;
+
+
     private float _movementX;
     private Vector2 _movement;
     private Controls _controls;
@@ -49,7 +51,10 @@ public class PlayerMovement : MonoBehaviour
         if (!pauseMovement)
         {
             MovePlayer();
+            TryWallSlide();
         }
+        
+        
     }
 
     void Update()
@@ -185,6 +190,24 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(_movementX * moveSpeed, rb.velocity.y);
     }
 
+    public void TryWallSlide()
+    {
+        bool canWallSlide = Physics2D.Raycast(transform.position, transform.right, distanceToTriggerWallSlide, groundLayer);
+        Debug.DrawLine(transform.position,transform.position + (distanceToTriggerWallSlide*transform.right),Color.blue);
+
+        // if the player is falling, then we can check for a wall slide
+        if (rb.velocity.y < 0 && canWallSlide)
+        {
+            Debug.Log("WALLSLIDING!");
+            // rb.AddForce(Vector2.up * wallSlidingSpeed, ForceMode2D.Impulse);
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+        }
+        else
+        {
+            Debug.Log("NOT WALLSLIDING!");
+        }
+    }
+
     public void TryJump()
     {
         // ground check
@@ -261,5 +284,11 @@ public class PlayerMovement : MonoBehaviour
     public void FreezePlayer(float duration)
     {
         StartCoroutine(FreezePlayerCoroutine(duration));
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + (distanceToTriggerWallSlide * transform.right));
     }
 }
