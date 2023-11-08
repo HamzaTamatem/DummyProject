@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Range(0,1)] private float horizontalDamping;
     [SerializeField] private float wallSlidingSpeed;
     [SerializeField] private float distanceToTriggerWallSlide;
+    private SpriteHandler spriteHandler;
 
 
     private float _movementX;
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private Controls _controls;
     private bool isFlipped;
     private bool canJump = true;
+    [SerializeField] private bool canLandOnce;
 
     private bool isMoving; // to store if player is clicking any buttons at the moment or not
 
@@ -31,11 +33,15 @@ public class PlayerMovement : MonoBehaviour
 
     public bool pauseMovement;
     public static bool pauseInput;
+    public bool isGrounded;
+    public bool canWallSlide;
+    public bool isSliding;
 
     private void Awake()
     {
         _controls = new Controls();
         rb = GetComponent<Rigidbody2D>();
+        spriteHandler = GetComponentInChildren<SpriteHandler>();
     }
 
     private void OnEnable()
@@ -188,43 +194,87 @@ public class PlayerMovement : MonoBehaviour
         // horizontalVelocity *= Mathf.Pow(1f - horizontalDamping, Time.deltaTime * 10);
         // rb.velocity = new Vector2(horizontalVelocity, rb.velocity.y);
         rb.velocity = new Vector2(_movementX * moveSpeed, rb.velocity.y);
+
+        if(!canLandOnce && isGrounded && !isSliding)
+        {
+            if (MathF.Abs(_movementX) > 0)
+            {
+                //Change the animation to Run
+                spriteHandler.ChangeAnim(SpriteHandler.Anim.Run);
+            }
+            else
+            {
+                //Change the animation to Idle
+                spriteHandler.ChangeAnim(SpriteHandler.Anim.Idle);
+            }
+        }
     }
 
     public void TryWallSlide()
     {
-        bool canWallSlide = Physics2D.Raycast(transform.position, transform.right, distanceToTriggerWallSlide, groundLayer);
+        canWallSlide = Physics2D.Raycast(transform.position, transform.right, distanceToTriggerWallSlide, groundLayer);
         Debug.DrawLine(transform.position,transform.position + (distanceToTriggerWallSlide*transform.right),Color.blue);
 
         // if the player is falling, then we can check for a wall slide
         if (rb.velocity.y < 0 && canWallSlide)
         {
-            Debug.Log("WALLSLIDING!");
+            //Debug.Log("WALLSLIDING!");
             // rb.AddForce(Vector2.up * wallSlidingSpeed, ForceMode2D.Impulse);
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            isSliding = true;
         }
         else
         {
-            Debug.Log("NOT WALLSLIDING!");
+            //Debug.Log("NOT WALLSLIDING!");
+            isSliding = false;
         }
     }
 
     public void TryJump()
     {
         // ground check
-        bool isGrounded = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0,groundLayer);
+        isGrounded = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0,groundLayer);
+
         if (isGrounded && canJump)
         {
+            if (groundedRemember <= 0 && canLandOnce)
+            {
+                //Change the animation to Land
+                spriteHandler.ChangeAnim(SpriteHandler.Anim.Land);
+                canLandOnce = false;
+            }
+
             // Debug.Log("Is grounded");
             groundedRemember = groundedRememberTime;
+        }
+        else
+        {
+            if(isSliding)
+            {
+                spriteHandler.ChangeAnim(SpriteHandler.Anim.Slide);
+            }
+            else
+            {
+                if(spriteHandler.currentAnim != SpriteHandler.Anim.Jump)
+                {
+                    //Change the animation to Fall
+                    spriteHandler.ChangeAnim(SpriteHandler.Anim.Fall);
+                }
+            }
         }
         if (groundedRemember > 0 && jumpPressedRemember > 0 && canJump)
         {
             jumpPressedRemember = 0f;
             groundedRemember = 0f;
-            
+
             rb.velocity = new Vector2(rb.velocity.x, 0f);
             rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
-            
+
+            canLandOnce = true;
+
+            //Change the animation to Jump
+            spriteHandler.ChangeAnim(SpriteHandler.Anim.Jump);
+
             PauseJump(0.2f);
         }
     }

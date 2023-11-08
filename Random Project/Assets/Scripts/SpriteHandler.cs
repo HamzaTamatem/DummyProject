@@ -2,22 +2,10 @@ using UnityEngine;
 
 public class SpriteHandler : MonoBehaviour
 {
-    [HideInInspector] public enum Anim { Player_Idle, Player_Run }
-    Anim currentAnim;
+    public enum Anim { Idle, Run, Jump, Fall, Land, Slide }
+    [HideInInspector] public Anim currentAnim;
 
     Animator anim => GetComponent<Animator>();
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ChangeAnim(Anim.Player_Idle);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ChangeAnim(Anim.Player_Run);
-        }
-    }
 
     public void ChangeAnim(Anim newAnim)
     {
