@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
 {
@@ -9,9 +10,22 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     [SerializeField] private MoveDirection moveDirection;
     [SerializeField] private bool isBeingHeld;
-
     
     private static Vector2 moveInput = Vector2.zero;
+    
+    public static event Action OnMoveDown;
+    
+    private void Start()
+    {
+        if (moveDirection == MoveDirection.Down)
+        {
+            GetComponent<Button>().onClick.AddListener(() =>
+            {
+                OnMoveDown?.Invoke();
+            });
+        }
+       
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {

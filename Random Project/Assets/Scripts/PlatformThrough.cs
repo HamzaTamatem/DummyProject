@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -12,12 +13,22 @@ public class PlatformThrough : MonoBehaviour
         myCollider = GetComponent<TilemapCollider2D>();
     }
 
+    private void OnEnable()
+    {
+        MoveButton.OnMoveDown += StopCollider;
+    }
+
+    private void OnDisable()
+    {
+        MoveButton.OnMoveDown -= StopCollider;
+    }
+
     private void Update()
     {
         //Change the S key to match the player controls
         if (Input.GetKeyDown(KeyCode.S) && canThrough)
         {
-            StartCoroutine(StopCollider());
+            StopCollider();
         }
     }
 
@@ -29,11 +40,16 @@ public class PlatformThrough : MonoBehaviour
         }
     }
 
-    IEnumerator StopCollider()
+    private IEnumerator StopColliderCoroutine()
     {
         myCollider.enabled = false;
         canThrough = false;
         yield return new WaitForSeconds(0.5f);
         myCollider.enabled = true;
+    }
+
+    public void StopCollider()
+    {
+        StartCoroutine(StopColliderCoroutine());
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     public static bool pauseInput;
     public bool isGrounded;
     public bool canWallSlide;
-    public bool isSliding;
+    public bool isWallSliding;
 
     private void Awake()
     {
@@ -195,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
         // rb.velocity = new Vector2(horizontalVelocity, rb.velocity.y);
         rb.velocity = new Vector2(_movementX * moveSpeed, rb.velocity.y);
 
-        if(!canLandOnce && isGrounded && !isSliding)
+        if(!canLandOnce && isGrounded && !isWallSliding)
         {
             if (MathF.Abs(_movementX) > 0)
             {
@@ -221,12 +222,12 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("WALLSLIDING!");
             // rb.AddForce(Vector2.up * wallSlidingSpeed, ForceMode2D.Impulse);
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
-            isSliding = true;
+            isWallSliding = true;
         }
         else
         {
             //Debug.Log("NOT WALLSLIDING!");
-            isSliding = false;
+            isWallSliding = false;
         }
     }
 
@@ -235,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
         // ground check
         isGrounded = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0,groundLayer);
 
-        if (isGrounded && canJump)
+        if (isGrounded || isWallSliding && canJump)
         {
             if (groundedRemember <= 0 && canLandOnce)
             {
@@ -249,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(isSliding)
+            if(isWallSliding)
             {
                 spriteHandler.ChangeAnim(SpriteHandler.Anim.Slide);
             }
