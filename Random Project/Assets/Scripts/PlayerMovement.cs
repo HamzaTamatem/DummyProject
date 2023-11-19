@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -24,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     private float dashTimer;
     private SpriteHandler spriteHandler;
 
+    private Coroutine waitUntilLand;
+
 
     private float _movementX;
     private Vector2 _movement;
@@ -47,11 +50,15 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
 
+    ParticleSystem jumpParticles;
+
     private void Awake()
     {
         _controls = new Controls();
         rb = GetComponent<Rigidbody2D>();
         spriteHandler = GetComponentInChildren<SpriteHandler>();
+
+        jumpParticles = transform.Find("Jump Particles").GetComponent<ParticleSystem>();
 
         moveSpeed = normalMoveSpeed;
     }
@@ -251,6 +258,8 @@ public class PlayerMovement : MonoBehaviour
             // rb.AddForce(Vector2.up * wallSlidingSpeed, ForceMode2D.Impulse);
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
             isWallSliding = true;
+
+            spriteHandler.ChangeAnim(SpriteHandler.Anim.Slide);
         }
         else
         {
@@ -259,35 +268,52 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //IEnumerator WaitUntilLand()
+    //{
+    //    if (canJump)
+    //        yield break;
+
+    //    yield return new WaitForSeconds(0.1f);
+    //    yield return new WaitUntil(() => isGrounded);
+    //    //print("Is grounded");
+    //}
+
     public void TryJump()
     {
         // ground check
         isGrounded = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0,groundLayer);
 
-        if (isGrounded || isWallSliding && canJump)
+        if (isGrounded)
         {
             if (groundedRemember <= 0 && canLandOnce)
             {
+                //print("Land");
                 //Change the animation to Land
                 spriteHandler.ChangeAnim(SpriteHandler.Anim.Land);
+                jumpParticles.Play();
                 canLandOnce = false;
             }
+        }
 
+        if (isGrounded || isWallSliding && canJump)
+        {
             // Debug.Log("Is grounded");
             groundedRemember = groundedRememberTime;
         }
         else
         {
-            if(isWallSliding)
+            if(!isWallSliding)
             {
-                spriteHandler.ChangeAnim(SpriteHandler.Anim.Slide);
-            }
-            else
-            {
-                if(spriteHandler.currentAnim != SpriteHandler.Anim.Jump)
+                if (spriteHandler.currentAnim != SpriteHandler.Anim.Jump)
                 {
                     //Change the animation to Fall
                     spriteHandler.ChangeAnim(SpriteHandler.Anim.Fall);
+                    //StartCoroutine(WaitUntilLand());
+
+                    if (!canLandOnce)
+                    {
+                        canLandOnce = true;
+                    }
                 }
             }
         }
@@ -299,10 +325,12 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, 0f);
             rb.AddForce(new Vector2(0,jumpForce),ForceMode2D.Impulse);
 
-            canLandOnce = true;
+            //canLandOnce = true;
 
             //Change the animation to Jump
             spriteHandler.ChangeAnim(SpriteHandler.Anim.Jump);
+
+            jumpParticles.Play();
 
             PauseJump(0.2f);
         }
@@ -312,6 +340,7 @@ public class PlayerMovement : MonoBehaviour
     {
         canJump = false;
         yield return new WaitForSeconds(duration);
+        canLandOnce = true;
         canJump = true;
     }
 
