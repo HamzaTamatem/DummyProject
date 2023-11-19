@@ -11,7 +11,7 @@ public class ButtonInteraction : MonoBehaviour, IPointerDownHandler, IPointerUpH
     
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log($"-- {nameof(OnPointerDown)} Event Detected from {gameObject.name} --");
+        // Debug.Log($"-- {nameof(OnPointerDown)} Event Detected from {gameObject.name} --");
         buttonDown?.Invoke();
 
         buttonIsHeld = true;
@@ -19,7 +19,7 @@ public class ButtonInteraction : MonoBehaviour, IPointerDownHandler, IPointerUpH
     
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log($"-- {nameof(OnPointerUp)} Event Detected from {gameObject.name} --");
+        // Debug.Log($"-- {nameof(OnPointerUp)} Event Detected from {gameObject.name} --");
         buttonUp?.Invoke();
         
         buttonIsHeld = false;
@@ -27,16 +27,16 @@ public class ButtonInteraction : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log($"-- {nameof(OnPointerEnter)} Event Detected from {gameObject.name} --");
+        // Debug.Log($"-- {nameof(OnPointerEnter)} Event Detected from {gameObject.name} --");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log($"-- {nameof(OnPointerExit)} Event Detected from {gameObject.name} --");
+        // Debug.Log($"-- {nameof(OnPointerExit)} Event Detected from {gameObject.name} --");
     }
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        Debug.Log($"-- {nameof(OnPointerMove)} Event Detected from {gameObject.name} --");
+        // Debug.Log($"-- {nameof(OnPointerMove)} Event Detected from {gameObject.name} --");
     }
 }

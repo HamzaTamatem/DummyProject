@@ -10,6 +10,8 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     [SerializeField] private MoveDirection moveDirection;
     [SerializeField] private bool isBeingHeld;
+
+    public static bool xMovementButtonHeld = false;
     
     private static Vector2 moveInput = Vector2.zero;
     
@@ -34,9 +36,11 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         switch (moveDirection)
         {
             case MoveDirection.Right:
+                xMovementButtonHeld = true;
                 moveInput.x = 1;
                 break;
             case MoveDirection.Left:
+                xMovementButtonHeld = true;
                 moveInput.x = -1;
                 break;
             case MoveDirection.Up:
@@ -58,9 +62,11 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         switch (moveDirection)
         {
             case MoveDirection.Right:
+                xMovementButtonHeld = false;
                 moveInput.x = 0;
                 break;
             case MoveDirection.Left:
+                xMovementButtonHeld = false;
                 moveInput.x = 0;
                 break;
             case MoveDirection.Up:
@@ -77,7 +83,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log(nameof(OnPointerEnter));
+        // Debug.Log(nameof(OnPointerEnter));
         switch (moveDirection)
         {
             case MoveDirection.Right:
@@ -100,7 +106,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log(nameof(OnPointerExit));
+        // Debug.Log(nameof(OnPointerExit));
         switch (moveDirection)
         {
             case MoveDirection.Right:

@@ -6,9 +6,6 @@ using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float jumpForce = 10f;
-    
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
@@ -17,6 +14,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Range(0,1)] private float horizontalDamping;
     [SerializeField] private float wallSlidingSpeed;
     [SerializeField] private float distanceToTriggerWallSlide;
+    [SerializeField] private float normalMoveSpeed = 5f;
+
+    [Header("Dash")] 
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashCooldown;
+    [SerializeField] private float dashRemember;
+    [SerializeField] private float dashSpeed;
+    private float dashTimer;
     private SpriteHandler spriteHandler;
 
 
@@ -25,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private Controls _controls;
     private bool isFlipped;
     private bool canJump = true;
+    private bool isDashing;
     [SerializeField] private bool canLandOnce;
 
     private bool isMoving; // to store if player is clicking any buttons at the moment or not
@@ -37,12 +43,17 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded;
     public bool canWallSlide;
     public bool isWallSliding;
+    
+    public float moveSpeed = 5f;
+    public float jumpForce = 10f;
 
     private void Awake()
     {
         _controls = new Controls();
         rb = GetComponent<Rigidbody2D>();
         spriteHandler = GetComponentInChildren<SpriteHandler>();
+
+        moveSpeed = normalMoveSpeed;
     }
 
     private void OnEnable()
@@ -69,9 +80,17 @@ public class PlayerMovement : MonoBehaviour
         jumpPressedRemember -= Time.deltaTime;
         groundedRemember -= Time.deltaTime;
         
+        if (dashTimer > 0)
+            dashTimer -= Time.deltaTime;
+        
         GetPlayerInput();
         // MovePlayer();
         HandlePlayerDirection();
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            Dash();
+        }
     }
 
     private void OnDisable()
@@ -194,6 +213,15 @@ public class PlayerMovement : MonoBehaviour
         // horizontalVelocity += _movementX;
         // horizontalVelocity *= Mathf.Pow(1f - horizontalDamping, Time.deltaTime * 10);
         // rb.velocity = new Vector2(horizontalVelocity, rb.velocity.y);
+
+        if (isDashing)
+        {
+            if (_movementX == 0)
+            {
+                _movementX = transform.right.x;
+            }
+        }
+        
         rb.velocity = new Vector2(_movementX * moveSpeed, rb.velocity.y);
 
         if(!canLandOnce && isGrounded && !isWallSliding)
@@ -335,6 +363,39 @@ public class PlayerMovement : MonoBehaviour
     public void FreezePlayer(float duration)
     {
         StartCoroutine(FreezePlayerCoroutine(duration));
+    }
+
+    private IEnumerator DashCoroutine()
+    {
+        float originalGravityScale = rb.gravityScale;
+        if (dashTimer <= 0)
+        {
+            dashTimer = dashCooldown;
+            isDashing = true;
+            moveSpeed = dashSpeed;
+            _movementX = transform.right.x;
+            
+            // stop gravity
+            rb.gravityScale = 0;
+            
+            // stop motion in Y
+            rb.velocity = new Vector2(rb.velocity.x, 0f);
+            
+            yield return new WaitForSeconds(dashTime);
+            moveSpeed = normalMoveSpeed;
+            if (MoveButton.xMovementButtonHeld)
+                _movementX = transform.right.x;
+            else
+                _movementX = 0f;
+            isDashing = false;
+            rb.gravityScale = originalGravityScale;
+        }
+    }
+
+    public void Dash()
+    {
+        Debug.Log(nameof(Dash));
+        StartCoroutine(DashCoroutine());
     }
 
     private void OnDrawGizmosSelected()
