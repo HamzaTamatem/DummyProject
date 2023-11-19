@@ -41,6 +41,8 @@ public class Boss_1 : Enemy
 
     [SerializeField] int[] actionSpamNumber;
 
+    BossSpriteHandler spriteHandler;
+
     public override void Awake()
     {
         base.Awake();
@@ -51,6 +53,8 @@ public class Boss_1 : Enemy
         wallCheckDistance = 2.2f;
 
         actionSpamNumber = new int[Enum.GetValues(typeof(State)).Length];
+
+        spriteHandler = GetComponentInChildren<BossSpriteHandler>();
     }
 
     private void FixedUpdate()
@@ -91,6 +95,8 @@ public class Boss_1 : Enemy
 
     private void IdleUpdate()
     {
+        spriteHandler.ChangeAnim(BossSpriteHandler.Anim.Idle);
+
         if (currentIdleTime <= 0)
         {
             int randMove = UnityEngine.Random.Range(1, Enum.GetValues(typeof(State)).Length);
@@ -153,12 +159,15 @@ public class Boss_1 : Enemy
             {
                 direction.x *= -1;
                 FindObjectOfType<CinemaShake>().Shake(5, 0.5f);
+                spriteHandler.gameObject.transform.localScale = new Vector2(-direction.x, 1);
             }
         }
         
     }
     private void DashUpdate()
     {
+        spriteHandler.ChangeAnim(BossSpriteHandler.Anim.Run);
+
         if (!stopSetValue)
         {
             currentActionTime = jumpTime;
@@ -181,6 +190,7 @@ public class Boss_1 : Enemy
             {
                 direction.x *= -1;
                 FindObjectOfType<CinemaShake>().Shake(5, 0.5f);
+                spriteHandler.gameObject.transform.localScale = new Vector2(-direction.x,1);
             }
         }
     }
@@ -253,6 +263,7 @@ public class Boss_1 : Enemy
         stopSetValue = false;
         startProjectileMachine = false;
         stopHitGround = false;
+        spriteHandler.gameObject.transform.localScale = new Vector2(-direction.x, 1);
     }
 
     public override void TakeDamage(int amount)

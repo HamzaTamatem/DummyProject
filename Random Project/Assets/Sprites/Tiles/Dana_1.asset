@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: Dana_1
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -903590617, guid: 380248030570ddf44b19ef25bc188e47, type: 3}
+  m_DefaultSprite: {fileID: -329721446, guid: 08996903b742c1f43bd406e28a75ee4c, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules:
