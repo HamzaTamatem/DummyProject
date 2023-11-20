@@ -235,6 +235,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &4743343312624357138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8871848491655689061}
+  m_Layer: 0
+  m_Name: BulletSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8871848491655689061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4743343312624357138}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.75, y: 0.35, z: -0.78958887}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1381014264264226965}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5109067283832436418
 GameObject:
   m_ObjectHideFlags: 0
@@ -9991,6 +10022,7 @@ Transform:
   - {fileID: 134058844400602977}
   - {fileID: 1227072039221305611}
   - {fileID: 3715927169476153673}
+  - {fileID: 8871848491655689061}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3632281291975558315
@@ -10072,11 +10104,13 @@ MonoBehaviour:
   dashCooldown: 0
   dashRemember: 0
   dashSpeed: 0
+  dashEffect: {fileID: 0}
+  dashEffectPrefab: {fileID: 0}
+  dashEffectSpawnPosition: {fileID: 0}
   canLandOnce: 0
   pauseMovement: 0
   isGrounded: 0
   canWallSlide: 0
-  isWallSliding: 0
   moveSpeed: 8
   jumpForce: 28
 --- !u!50 &2656225601561371248

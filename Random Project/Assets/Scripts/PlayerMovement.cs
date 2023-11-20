@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -22,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashCooldown;
     [SerializeField] private float dashRemember;
     [SerializeField] private float dashSpeed;
+    [SerializeField] private ParticleSystem dashEffect;
+    [SerializeField] private GameObject dashEffectPrefab;
+    [SerializeField] private Transform dashEffectSpawnPosition;
     private float dashTimer;
     private SpriteHandler spriteHandler;
 
@@ -45,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     public static bool pauseInput;
     public bool isGrounded;
     public bool canWallSlide;
-    public bool isWallSliding;
+    public static bool isWallSliding;
     
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
@@ -321,7 +322,10 @@ public class PlayerMovement : MonoBehaviour
                 if (spriteHandler.currentAnim != SpriteHandler.Anim.Jump)
                 {
                     //Change the animation to Fall
-                    spriteHandler.ChangeAnim(SpriteHandler.Anim.Fall);
+                    if (!isDashing)
+                    {
+                        spriteHandler.ChangeAnim(SpriteHandler.Anim.Fall);
+                    }
                     //StartCoroutine(WaitUntilLand());
 
                     if (!canLandOnce)
@@ -393,6 +397,53 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(directionVector.normalized * forceMagnitude, ForceMode2D.Impulse);
     }
 
+    public enum PushDirection
+    {
+        None, Custom, One, Two, Three, Four
+    }
+    
+    public void PushPlayerInDirection(PushDirection pushDirection, float forceMagnitude)
+    {
+        Debug.Log(nameof(PushPlayerInDirection));
+        float randomAngle = GetRandomAngleBasedOnQuadrant(pushDirection);
+        PausePlayerMovement(0.5f);
+        rb.velocity = Vector2.zero;
+        
+        // Convert angle to radians (Unity's Mathf functions use radians)
+        float angleInRadians = Mathf.Deg2Rad * randomAngle;
+
+        // Calculate direction vector
+        Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+        
+        rb.AddForce(direction.normalized * forceMagnitude, ForceMode2D.Impulse);
+    }
+
+    public float GetRandomAngleBasedOnQuadrant(PushDirection pushDirection)
+    {
+        float randomAngle = 0;
+        switch (pushDirection)
+        {
+            case PushDirection.One:
+                randomAngle = UnityEngine.Random.Range(45, 90);
+                break;
+            case PushDirection.Two:
+                randomAngle = UnityEngine.Random.Range(90, 135);
+                break;
+            case PushDirection.Three:
+                randomAngle = UnityEngine.Random.Range(180, 270);
+                break;
+            case PushDirection.Four:
+                randomAngle = UnityEngine.Random.Range(270, 360);
+                break;
+            case PushDirection.None:
+            default:
+                break;
+        }
+
+        Debug.Log($"Random Angle in Quadrant {pushDirection.ToString()}: {randomAngle}");
+        return randomAngle;
+    }
+
     private IEnumerator FreezePlayerCoroutine(float duration)
     {
         float originalSpeed = moveSpeed;
@@ -413,12 +464,15 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator DashCoroutine()
     {
+        if (isWallSliding) yield break;
         float originalGravityScale = rb.gravityScale;
         if (dashTimer <= 0)
         {
+            Instantiate(dashEffectPrefab, dashEffectSpawnPosition.position, Quaternion.identity);
             spriteHandler.ChangeAnim(SpriteHandler.Anim.DashStart);
-            dashTimer = dashCooldown;
             isDashing = true;
+            // dashEffect.Play();
+            dashTimer = dashCooldown;
             moveSpeed = dashSpeed;
             _movementX = transform.right.x;
             
@@ -437,6 +491,7 @@ public class PlayerMovement : MonoBehaviour
                 _movementX = 0f;
             isDashing = false;
             rb.gravityScale = originalGravityScale;
+            dashEffect.Stop();
         }
     }
 

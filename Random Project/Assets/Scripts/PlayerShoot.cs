@@ -84,6 +84,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Shoot()
     {
+        if (PlayerMovement.isWallSliding) return;
         GameObject newProjectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
         if (prototype == Prototype.AimShoot)
         {
