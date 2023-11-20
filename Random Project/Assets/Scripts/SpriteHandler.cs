@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpriteHandler : MonoBehaviour
 {
-    public enum Anim { Idle, Run, Jump, Fall, Land, Slide }
+    public enum Anim { Idle, Run, Jump, Fall, Land, Slide, DashStart, DashMid, DashEnd }
     [HideInInspector] public Anim currentAnim;
 
     Animator anim => GetComponent<Animator>();

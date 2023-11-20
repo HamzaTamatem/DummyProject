@@ -84,7 +84,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Shoot()
     {
-        GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        GameObject newProjectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
         if (prototype == Prototype.AimShoot)
         {
             newProjectile.GetComponent<Projectile>().direction = aimDirection;

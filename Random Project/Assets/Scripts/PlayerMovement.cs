@@ -231,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
         
         rb.velocity = new Vector2(_movementX * moveSpeed, rb.velocity.y);
 
-        if(!canLandOnce && isGrounded && !isWallSliding)
+        if(!canLandOnce && isGrounded && !isWallSliding && !isDashing)
         {
             if (MathF.Abs(_movementX) > 0)
             {
@@ -399,6 +399,7 @@ public class PlayerMovement : MonoBehaviour
         float originalGravityScale = rb.gravityScale;
         if (dashTimer <= 0)
         {
+            spriteHandler.ChangeAnim(SpriteHandler.Anim.DashStart);
             dashTimer = dashCooldown;
             isDashing = true;
             moveSpeed = dashSpeed;
@@ -411,6 +412,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, 0f);
             
             yield return new WaitForSeconds(dashTime);
+            spriteHandler.ChangeAnim(SpriteHandler.Anim.DashEnd);
             moveSpeed = normalMoveSpeed;
             if (MoveButton.xMovementButtonHeld)
                 _movementX = transform.right.x;
