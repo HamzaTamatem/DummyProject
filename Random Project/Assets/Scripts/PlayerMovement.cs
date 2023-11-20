@@ -234,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
         
         rb.velocity = new Vector2(_movementX * moveSpeed, rb.velocity.y);
 
-        if(/*!canLandOnce &&*/ isGrounded && !isWallSliding && !isDashing)
+        if(/*!canLandOnce &&*/ isGrounded && !isWallSliding && !isDashing && canJump)
         {
             if (MathF.Abs(_movementX) > 0)
             {
@@ -276,7 +276,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (spriteHandler.currentAnim == SpriteHandler.Anim.Slide && !isWallSliding)
         {
-            spriteHandler.ChangeAnim(SpriteHandler.Anim.Idle);
+            //spriteHandler.ChangeAnim(SpriteHandler.Anim.Idle);
             var SP = slideParticles.emission;
             SP.rateOverDistance = 0;
             //print("Not wall slideing");
