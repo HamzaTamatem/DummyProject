@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private ParticleSystem dashEffect;
     [SerializeField] private GameObject dashEffectPrefab;
     [SerializeField] private Transform dashEffectSpawnPosition;
+    
     private float dashTimer;
     private SpriteHandler spriteHandler;
 
@@ -54,11 +55,14 @@ public class PlayerMovement : MonoBehaviour
     ParticleSystem jumpParticles;
     ParticleSystem slideParticles;
 
+    private AfterImageGenerator afterImageGenerator;
+
     private void Awake()
     {
         _controls = new Controls();
         rb = GetComponent<Rigidbody2D>();
         spriteHandler = GetComponentInChildren<SpriteHandler>();
+        afterImageGenerator = GetComponent<AfterImageGenerator>();
 
         jumpParticles = transform.Find("Jump Particles").GetComponent<ParticleSystem>();
         slideParticles = transform.Find("Slide Particles").GetComponent<ParticleSystem>();
@@ -468,6 +472,7 @@ public class PlayerMovement : MonoBehaviour
         float originalGravityScale = rb.gravityScale;
         if (dashTimer <= 0)
         {
+            afterImageGenerator.Play();
             Instantiate(dashEffectPrefab, dashEffectSpawnPosition.position, Quaternion.identity);
             spriteHandler.ChangeAnim(SpriteHandler.Anim.DashStart);
             isDashing = true;
@@ -492,6 +497,7 @@ public class PlayerMovement : MonoBehaviour
             isDashing = false;
             rb.gravityScale = originalGravityScale;
             dashEffect.Stop();
+            afterImageGenerator.Stop();
         }
     }
 
