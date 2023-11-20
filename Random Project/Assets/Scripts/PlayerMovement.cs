@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 10f;
 
     ParticleSystem jumpParticles;
+    ParticleSystem slideParticles;
 
     private void Awake()
     {
@@ -59,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         spriteHandler = GetComponentInChildren<SpriteHandler>();
 
         jumpParticles = transform.Find("Jump Particles").GetComponent<ParticleSystem>();
+        slideParticles = transform.Find("Slide Particles").GetComponent<ParticleSystem>();
 
         moveSpeed = normalMoveSpeed;
     }
@@ -231,7 +233,7 @@ public class PlayerMovement : MonoBehaviour
         
         rb.velocity = new Vector2(_movementX * moveSpeed, rb.velocity.y);
 
-        if(!canLandOnce && isGrounded && !isWallSliding && !isDashing)
+        if(/*!canLandOnce &&*/ isGrounded && !isWallSliding && !isDashing)
         {
             if (MathF.Abs(_movementX) > 0)
             {
@@ -249,7 +251,7 @@ public class PlayerMovement : MonoBehaviour
     public void TryWallSlide()
     {
         canWallSlide = Physics2D.Raycast(transform.position, transform.right, distanceToTriggerWallSlide, groundLayer);
-        Debug.DrawLine(transform.position,transform.position + (distanceToTriggerWallSlide*transform.right),Color.blue);
+        //Debug.DrawLine(transform.position,transform.position + (distanceToTriggerWallSlide*transform.right),Color.blue);
 
         // if the player is falling, then we can check for a wall slide
         if (rb.velocity.y < 0 && canWallSlide)
@@ -260,11 +262,23 @@ public class PlayerMovement : MonoBehaviour
             isWallSliding = true;
 
             spriteHandler.ChangeAnim(SpriteHandler.Anim.Slide);
+            var SP = slideParticles.emission;
+            SP.rateOverDistance = 10;
+
+            //slideParticles.Play();
         }
         else
         {
             //Debug.Log("NOT WALLSLIDING!");
             isWallSliding = false;
+        }
+
+        if (spriteHandler.currentAnim == SpriteHandler.Anim.Slide && !isWallSliding)
+        {
+            spriteHandler.ChangeAnim(SpriteHandler.Anim.Idle);
+            var SP = slideParticles.emission;
+            SP.rateOverDistance = 0;
+            //print("Not wall slideing");
         }
     }
 
@@ -331,6 +345,9 @@ public class PlayerMovement : MonoBehaviour
             spriteHandler.ChangeAnim(SpriteHandler.Anim.Jump);
 
             jumpParticles.Play();
+
+            var SP = slideParticles.emission;
+            SP.rateOverDistance = 0;
 
             PauseJump(0.2f);
         }
