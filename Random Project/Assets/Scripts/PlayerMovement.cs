@@ -473,7 +473,7 @@ public class PlayerMovement : MonoBehaviour
         if (dashTimer <= 0)
         {
             afterImageGenerator.Play();
-            Instantiate(dashEffectPrefab, dashEffectSpawnPosition.position, Quaternion.identity);
+            Instantiate(dashEffectPrefab, dashEffectSpawnPosition.position, transform.rotation);
             spriteHandler.ChangeAnim(SpriteHandler.Anim.DashStart);
             isDashing = true;
             // dashEffect.Play();
