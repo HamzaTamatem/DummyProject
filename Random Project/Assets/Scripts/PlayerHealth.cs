@@ -66,9 +66,10 @@ public class PlayerHealth : Flashable
             currentHealth = 0;
 
             // TODO: kill the player, reset game, etc...
+            GetComponent<PlayerMovement>().FreezePlayer(1f);
             OnPlayerDeath?.Invoke();
             Debug.Log("-- Player died, reloading scene. --");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         Debug.Log($"The current health of the player is: {currentHealth}");

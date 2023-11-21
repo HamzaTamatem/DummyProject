@@ -10029,7 +10029,6 @@ GameObject:
   - component: {fileID: 6073485220181297521}
   - component: {fileID: 8154423718735047319}
   - component: {fileID: 9166923887484935279}
-  - component: {fileID: 8217197626258640521}
   m_Layer: 7
   m_Name: Player 3
   m_TagString: Player
@@ -10308,22 +10307,6 @@ BoxCollider2D:
   m_Size: {x: 0.5144577, y: 1.2594633}
   m_EdgeRadius: 0
 --- !u!114 &9166923887484935279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7888779941779427433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48d9f82fea5ef4fa4b544378c819f172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRendererToCopy: {fileID: 2007284834188374723}
-  spawnFrequency: 0.05
-  fadeDuration: 10
-  startingOpacity: 1
---- !u!114 &8217197626258640521
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

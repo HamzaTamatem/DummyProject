@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        pauseInput = false;
         _controls = new Controls();
         rb = GetComponent<Rigidbody2D>();
         spriteHandler = GetComponentInChildren<SpriteHandler>();
