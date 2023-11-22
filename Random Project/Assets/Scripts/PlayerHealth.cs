@@ -72,6 +72,7 @@ public class PlayerHealth : Flashable
             GetComponent<PlayerMovement>().FreezePlayer(1f);
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
             OnPlayerDeath?.Invoke();
+            Handheld.Vibrate();
             Debug.Log("-- Player died, reloading scene. --");
             // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
