@@ -65,4 +65,9 @@ public class GiveDamage : MonoBehaviour
     {
         StartCoroutine(PauseGivingDamageCoroutine(duration));
     }
+
+    private void OnDisable()
+    {
+        recentlyGaveDamage = false;
+    }
 }

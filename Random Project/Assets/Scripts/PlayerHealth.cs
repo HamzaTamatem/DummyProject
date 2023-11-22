@@ -12,6 +12,8 @@ public class PlayerHealth : Flashable
     [SerializeField] private bool recentlyTookDamage = false;
     [SerializeField] private float takingDamageInvulnerabilityDuration = 10f;
 
+    private bool isDead = false;
+
     public static event Action OnPlayerDeath;
     public static event Action OnPlayerDamaged;
     
@@ -61,12 +63,14 @@ public class PlayerHealth : Flashable
         HealthManager.UpdateNumberOfHearts(currentHealth);
         PauseTakingDamage();
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 /*&& !isDead*/)
         {
             currentHealth = 0;
+            // isDead = true;
 
             // TODO: kill the player, reset game, etc...
             GetComponent<PlayerMovement>().FreezePlayer(1f);
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
             OnPlayerDeath?.Invoke();
             Debug.Log("-- Player died, reloading scene. --");
             // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
