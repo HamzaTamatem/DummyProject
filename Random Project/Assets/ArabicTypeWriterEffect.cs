@@ -7,9 +7,9 @@ using UnityEngine.Serialization;
 
 public class ArabicTypeWriterEffect : MonoBehaviour
 {
-    public RTLTextMeshPro rtlText;
+    [HideInInspector] public RTLTextMeshPro rtlText;
     [Tooltip("The text that will be typed.")]
-    public string textToTypeWrite;
+    [HideInInspector] public string textToTypeWrite;
     [Tooltip("The time it takes to type every character.")]
     [SerializeField] private float timeBetweenChars;
 
@@ -44,7 +44,7 @@ public class ArabicTypeWriterEffect : MonoBehaviour
         for (int i = 0; i < arabicText.Length; i++)
         {
             string letter = UnicodeToChar(unicodeString, i+1);
-            Debug.Log($"Converter string: {letter}");
+            //Debug.Log($"Converter string: {letter}");
             rtlText.text = letter;
             yield return new WaitForSeconds(timeBetweenChars);
         }
@@ -113,7 +113,7 @@ public class ArabicTypeWriterEffect : MonoBehaviour
             sb.AppendFormat("0x{0:X} ", (int)c);
         }
 
-        Debug.Log($"{nameof(ArabicStringToUnicodeString)}: {sb.ToString().Trim()}");
+        //Debug.Log($"{nameof(ArabicStringToUnicodeString)}: {sb.ToString().Trim()}");
 
         // Remove the trailing space and return the result
         return sb.ToString().Trim();

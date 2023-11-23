@@ -12,9 +12,9 @@ public class DialogueUI : MonoBehaviour
 
     //Refs
     GameObject dialogueBox;
-    TMP_Text enTxt,enName;
-    RTLTextMeshPro arTxt,arName;
-    Image portrait;
+    TMP_Text /*enTxt*/enName;
+    [SerializeField] RTLTextMeshPro txt,arName;
+    [SerializeField] Image portrait;
     //PlayerController pc;
     DialogueSystem ds;
 
@@ -24,15 +24,33 @@ public class DialogueUI : MonoBehaviour
     string currentName;
     List<string> dialogues = new List<string>();
 
+    ArabicTypeWriterEffect arabicEffect;
+
+    [SerializeField] HorizontalLayoutGroup horizontalFolder;
+
     private void Awake()
     {
         dialogueBox = transform.Find("DialogueBox").gameObject;
-        enTxt = dialogueBox.transform.Find("EnTxt").GetComponent<TMP_Text>();
+        //enTxt = dialogueBox.transform.Find("EnTxt").GetComponent<TMP_Text>();
         enName = dialogueBox.transform.Find("EnName").GetComponent<TMP_Text>();
-        arTxt = dialogueBox.transform.Find("ArTxt").GetComponent<RTLTextMeshPro>();
-        arName = dialogueBox.transform.Find("ArName").GetComponent<RTLTextMeshPro>();
-        portrait = dialogueBox.transform.Find("Portrait").GetComponent<Image>();
+        //txt = dialogueBox.transform.Find("Txt").GetComponent<RTLTextMeshPro>();
+        //arName = dialogueBox.transform.Find("ArName").GetComponent<RTLTextMeshPro>();
+        //portrait = dialogueBox.transform.Find("Portrait").GetComponent<Image>();
+        //horizontalFolder = dialogueBox.transform.Find("HorizontalFolder").GetComponent<HorizontalLayoutGroup>();
+
+        arabicEffect = GetComponent<ArabicTypeWriterEffect>();
         //pc = FindObjectOfType<PlayerController>();
+
+        if (language == Languages.en)
+        {
+            horizontalFolder.reverseArrangement = false;
+            txt.alignment = TextAlignmentOptions.Left;
+        }
+        else
+        {
+            horizontalFolder.reverseArrangement = true;
+            txt.alignment = TextAlignmentOptions.Right;
+        }
     }
 
     //Call when dialogue start to assign the name, image and dialogue
@@ -89,7 +107,9 @@ public class DialogueUI : MonoBehaviour
             UpdateInfo();
             canText = false;
 
-            arTxt.text = dialogue[dialogueNum];
+            arabicEffect.rtlText = txt;
+            arabicEffect.TypeWrite(dialogue[dialogueNum]);
+            //arTxt.text = dialogue[dialogueNum];
         }
         else
         {
@@ -108,7 +128,7 @@ public class DialogueUI : MonoBehaviour
             canText = false;
             foreach(char letter in dialogue[dialogueNum])
             {
-                enTxt.text += letter;
+                txt.text += letter;
                 yield return new WaitForSeconds(0.02f);
             }
         }
@@ -153,8 +173,8 @@ public class DialogueUI : MonoBehaviour
         //pc.StopMoving(false);
         //player can move now
         dialogueNum = 0;
-        enTxt.text = "";
-        arTxt.text = "";
+        //enTxt.text = "";
+        txt.text = "";
         dialogues.Clear();
     }
 
@@ -168,8 +188,8 @@ public class DialogueUI : MonoBehaviour
                 return;
 
             dialogueNum++;
-            enTxt.text = "";
-            arTxt.text = "";
+            //enTxt.text = "";
+            txt.text = "";
 
             ChooseLanguage();
         }

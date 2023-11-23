@@ -2062,6 +2062,17 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &486236428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7461683256734420438, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
+  m_PrefabInstance: {fileID: 7009034518273757726}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &516172493
 GameObject:
   m_ObjectHideFlags: 0
@@ -2423,7 +2434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7888779941779427433, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3232,7 +3243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1373497513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3347,7 +3358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1556847991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8782,8 +8793,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1937323833225162089, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
       propertyPath: language
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1937323833225162089, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
+      propertyPath: horizontalFolder
+      value: 
+      objectReference: {fileID: 486236428}
     - target: {fileID: 4923510354113663074, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -8864,13 +8879,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6373539978063116723, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373539978063116723, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373539978063116723, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8953759714951380973, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
       propertyPath: m_Name
       value: DialogueCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953759714951380973, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
