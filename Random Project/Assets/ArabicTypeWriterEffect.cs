@@ -3,39 +3,33 @@ using System.Collections;
 using System.Text;
 using RTLTMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ArabicTypeWriterEffect : MonoBehaviour
 {
-
-    private RTLTextMeshPro RTLText;
+    public RTLTextMeshPro rtlText;
     [Tooltip("The text that will be typed.")]
-    [SerializeField] private string textToTypeWrite;
+    public string textToTypeWrite;
     [Tooltip("The time it takes to type every character.")]
     [SerializeField] private float timeBetweenChars;
 
     private void Awake()
     {
-        RTLText = GetComponent<RTLTextMeshPro>();
+        rtlText = GetComponent<RTLTextMeshPro>();
     }
 
-    void Start()
+    [UnityEngine.ContextMenu("TypeWrite()")]
+    public void TypeWrite()
     {
-        /*// Convert Unicode to text
-        string text = UnicodeToString(unicodeString);
-
-        // Output the result
-        Debug.Log("Converted Text: " + text);
-        RTLText.text = text;*/
-
-        // TRYING TO CONVERT UNICODE TO CHARACTERS
-        // string letter = UnicodeToChar(unicodeString, 2);
-        // Debug.Log($"Converter string: {letter}");
-        // RTLText.text = letter;
-
-        StartCoroutine(TypeWrite(textToTypeWrite));
+        StartCoroutine(TypeWriteCoroutine(textToTypeWrite));
+    }
+    
+    public void TypeWrite(string arabicText)
+    {
+        StartCoroutine(TypeWriteCoroutine(arabicText));
     }
 
-    private IEnumerator TypeWrite(string arabicText)
+    private IEnumerator TypeWriteCoroutine(string arabicText)
     {
         // Unicode string in the format 0xXXXX
         // string unicodeString = "0x0645 0x0631 0x062d 0x0628 0x0627"; // This represents the word "مرحبا" in Unicode
@@ -51,7 +45,7 @@ public class ArabicTypeWriterEffect : MonoBehaviour
         {
             string letter = UnicodeToChar(unicodeString, i+1);
             Debug.Log($"Converter string: {letter}");
-            RTLText.text = letter;
+            rtlText.text = letter;
             yield return new WaitForSeconds(timeBetweenChars);
         }
     }
