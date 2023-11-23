@@ -1,5 +1,86 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1809991899738341635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4149194324045520247}
+  - component: {fileID: 8514313339461163008}
+  m_Layer: 7
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4149194324045520247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809991899738341635}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1381014264264226965}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8514313339461163008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809991899738341635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e983b5073e24aa640a226a82a750f53e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Walk1
+    clip: {fileID: 8300000, guid: 719d071a24d4d654fb6681dffaeedb00, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Walk2
+    clip: {fileID: 8300000, guid: 7d8a5371e290d19489c27adb1d7aff61, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Jump
+    clip: {fileID: 8300000, guid: 599e4fff38c33444d90dcaba2c56c7e5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Land
+    clip: {fileID: 8300000, guid: 9eb16ae0b5702404aae77b10b62728f1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Slide
+    clip: {fileID: 8300000, guid: d3fcf357b10474545b7062810a6fe0c3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Shoot
+    clip: {fileID: 8300000, guid: c1f51835117151846932bbe0c1b3a557, type: 3}
+    volume: 1
+    pitch: 3
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &2537674862353065067
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7aa49f5761016b49ad9384fad27d555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 0}
   currentAnim: 0
 --- !u!1 &4723308392010492603
 GameObject:
@@ -10057,6 +10139,7 @@ Transform:
   - {fileID: 8871848491655689061}
   - {fileID: 1707615771102721944}
   - {fileID: 305572296297390837}
+  - {fileID: 4149194324045520247}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3632281291975558315
@@ -10248,6 +10331,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4855732184732812354, guid: a2a1d642368b14fe7b2173d6c43e5954, type: 3}
   timeBetweenShots: 0.5
   shootButton: {fileID: 0}
+  audioManager: {fileID: 0}
   prototype: 2
 --- !u!114 &6073485220181297521
 MonoBehaviour:
