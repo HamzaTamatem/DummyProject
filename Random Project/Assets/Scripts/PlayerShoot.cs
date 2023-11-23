@@ -9,6 +9,8 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private float timeBetweenShots = 1;
     [SerializeField] private ButtonInteraction shootButton;
 
+    [SerializeField] private AudioManager audioManager;
+
     public enum Prototype
     {
         None,
@@ -86,6 +88,8 @@ public class PlayerShoot : MonoBehaviour
     {
         if (PlayerMovement.isWallSliding) return;
         GameObject newProjectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+        audioManager.Play("Shoot");
+
         if (prototype == Prototype.AimShoot)
         {
             newProjectile.GetComponent<Projectile>().direction = aimDirection;
