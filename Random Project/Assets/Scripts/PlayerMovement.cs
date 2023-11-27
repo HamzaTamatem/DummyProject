@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float wallSlidingSpeed;
     [SerializeField] private float distanceToTriggerWallSlide;
     [SerializeField] private float normalMoveSpeed = 5f;
+    [SerializeField] private PlayerHealth playerHealth;
 
     [Header("Dash")] 
     [SerializeField] private float dashTime;
@@ -225,6 +226,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+        if (playerHealth.isDead)
+        {
+            return;
+        }
         // float horizontalVelocity = rb.velocity.x;
         // horizontalVelocity += _movementX;
         // horizontalVelocity *= Mathf.Pow(1f - horizontalDamping, Time.deltaTime * 10);

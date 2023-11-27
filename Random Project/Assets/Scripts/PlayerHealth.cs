@@ -11,8 +11,9 @@ public class PlayerHealth : Flashable
     [SerializeField] [Range(1,10)] private int maxHealth;
     [SerializeField] private bool recentlyTookDamage = false;
     [SerializeField] private float takingDamageInvulnerabilityDuration = 10f;
+    [SerializeField] private Animator playerAnimator;
 
-    private bool isDead = false;
+    public bool isDead = false;
 
     public static event Action OnPlayerDeath;
     public static event Action OnPlayerDamaged;
@@ -53,7 +54,7 @@ public class PlayerHealth : Flashable
     public void TakeDamage(int amount)
     {
         // if the player recently took damage, they are currently invulnerable for some time
-        if (recentlyTookDamage)
+        if (recentlyTookDamage || isDead)
         {
             return;
         }
@@ -69,10 +70,13 @@ public class PlayerHealth : Flashable
             // isDead = true;
 
             // TODO: kill the player, reset game, etc...
-            GetComponent<PlayerMovement>().FreezePlayer(1f);
+            GetComponent<PlayerMovement>().FreezePlayer(4f);
+            GetComponent<PlayerMovement>().PausePlayerMovement(4f);
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
             OnPlayerDeath?.Invoke();
             Handheld.Vibrate();
+            playerAnimator.Play("Death");
+            isDead = true;
             Debug.Log("-- Player died, reloading scene. --");
             // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
