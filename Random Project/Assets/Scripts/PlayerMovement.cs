@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private ParticleSystem dashEffect;
     [SerializeField] private GameObject dashEffectPrefab;
     [SerializeField] private Transform dashEffectSpawnPosition;
+    private bool canDash;
     
     private float dashTimer;
     private SpriteHandler spriteHandler;
@@ -384,6 +385,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Debug.Log("Movement is paused.");
         pauseMovement = true;
+        dashTimer = duration;
         yield return new WaitForSeconds(duration);
         // Debug.Log("Movement is resumed.");
         pauseMovement = false;
@@ -456,6 +458,7 @@ public class PlayerMovement : MonoBehaviour
         _controls.Disable();
         pauseInput = true;
         moveSpeed = 0;
+        dashTimer = duration;
         yield return new WaitForSeconds(duration);
         _controls.Enable();
         pauseInput = false;

@@ -242,7 +242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4712f965faf754926ad13bad1c2639dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToTypeWrite: "\u0627\u0644\u0633\u0644\u0627\u0645 \u0639\u0644\u064A\u0643\u0645"
+  rtlText: {fileID: 0}
+  textToTypeWrite: "\u0627\u0644\u0633\u0644\u0627\u0645 \u0639\u0644\u064A\u0643\u0645
+    \u0648 \u0631\u062D\u0645\u0629 \u0627\u0644\u0644\u0647 \u0648\u0628\u0631\u0643\u0627\u062A\u0647"
   timeBetweenChars: 0.1
 --- !u!114 &764065119
 MonoBehaviour:
@@ -278,7 +280,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFE8D\uFEDF\uFEB4\uFEFC\uFEE1 \uFECB\uFEE0\uFBFF\uFEDC\uFEE2"
+  m_text: "\uFE8D\uFEDF\uFEB4\uFEFC\uFEE1 \uFECB\uFEE0\uFBFF\uFEDC\uFEE2 \uFEED \uFEAD\uFEA3\uFEE4\uFE94
+    \uFE8D\uFEDF\uFEE0\uFEEA \uFEED\uFE91\uFEAE\uFEDB\uFE8E\uFE97\uFEEA"
   m_isRightToLeft: 1
   m_fontAsset: {fileID: 11400000, guid: 502919fc103ae446d991b992604b8f93, type: 2}
   m_sharedMaterial: {fileID: -330354305453913310, guid: 502919fc103ae446d991b992604b8f93, type: 2}
@@ -349,7 +352,8 @@ MonoBehaviour:
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
   preserveNumbers: 0
   farsi: 1
-  originalText: "\u0627\u0644\u0633\u0644\u0627\u0645 \u0639\u0644\u064A\u0643\u0645"
+  originalText: "\u0627\u0644\u0633\u0644\u0627\u0645 \u0639\u0644\u064A\u0643\u0645
+    \u0648 \u0631\u062D\u0645\u0629 \u0627\u0644\u0644\u0647 \u0648\u0628\u0631\u0643\u0627\u062A\u0647"
   fixTags: 1
   forceFix: 0
 --- !u!222 &764065122
