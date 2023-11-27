@@ -2436,19 +2436,31 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8514313339461163008, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
+      propertyPath: sounds.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514313339461163008, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
+      propertyPath: sounds.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ddca6ef797fad5c469679c3c243f898c, type: 3}
+    - target: {fileID: 8514313339461163008, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
+      propertyPath: sounds.Array.data[6].name
+      value: FireDestroy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514313339461163008, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
+      propertyPath: sounds.Array.data[6].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514313339461163008, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
+      propertyPath: sounds.Array.data[6].volume
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 1381014264264226965, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 928468235}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
---- !u!4 &712904123 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1381014264264226965, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
-  m_PrefabInstance: {fileID: 712904122}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &721751237
 GameObject:
   m_ObjectHideFlags: 0
@@ -2750,87 +2762,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8337741361001909166, guid: 56105f51590040549a132fc8afa15820, type: 3}
   m_PrefabInstance: {fileID: 796954761}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &928468234
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 928468235}
-  - component: {fileID: 928468236}
-  m_Layer: 7
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &928468235
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 928468234}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 712904123}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &928468236
+--- !u!114 &928468236 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 8514313339461163008, guid: c40a758f6489348a2b1378ab1c9a7539, type: 3}
+  m_PrefabInstance: {fileID: 712904122}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 928468234}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e983b5073e24aa640a226a82a750f53e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
-  - name: Walk1
-    clip: {fileID: 8300000, guid: 719d071a24d4d654fb6681dffaeedb00, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Walk2
-    clip: {fileID: 8300000, guid: 7d8a5371e290d19489c27adb1d7aff61, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Jump
-    clip: {fileID: 8300000, guid: 599e4fff38c33444d90dcaba2c56c7e5, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Land
-    clip: {fileID: 8300000, guid: 9eb16ae0b5702404aae77b10b62728f1, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Slide
-    clip: {fileID: 8300000, guid: d3fcf357b10474545b7062810a6fe0c3, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: Shoot
-    clip: {fileID: 8300000, guid: c1f51835117151846932bbe0c1b3a557, type: 3}
-    volume: 1
-    pitch: 3
-    loop: 0
-    source: {fileID: 0}
 --- !u!1 &944719973
 GameObject:
   m_ObjectHideFlags: 0
@@ -8793,7 +8735,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1937323833225162089, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
       propertyPath: language
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1937323833225162089, guid: 11daaa4aab21cb74ba4e407ea9c39cfe, type: 3}
       propertyPath: horizontalFolder

@@ -50,6 +50,7 @@ public class FireBall : MonoBehaviour
     {
         if (col.CompareTag("Enemy"))
         {
+            FindAnyObjectByType<AudioManager>().Play("FireDestroy");
             col.GetComponent<Enemy_Base>().GetHit(damage);
             Destroy(gameObject);
         }
