@@ -157,6 +157,7 @@ public class Boss_1 : Enemy
 
             if (touchWall)
             {
+                FindAnyObjectByType<AudioManager>().Play("BossAttack");
                 direction.x *= -1;
                 FindObjectOfType<CinemaShake>().Shake(5, 0.5f);
                 spriteHandler.gameObject.transform.localScale = new Vector2(-direction.x, 1);
@@ -188,6 +189,7 @@ public class Boss_1 : Enemy
 
             if (touchWall)
             {
+                FindAnyObjectByType<AudioManager>().Play("BossAttack");
                 direction.x *= -1;
                 FindObjectOfType<CinemaShake>().Shake(5, 0.5f);
                 spriteHandler.gameObject.transform.localScale = new Vector2(-direction.x,1);
@@ -216,6 +218,8 @@ public class Boss_1 : Enemy
             {
                 if (startProjectileMachine)
                 {
+                    FindAnyObjectByType<AudioManager>().Play("BossAttack");
+
                     if (!projectileMachines[0].activeInHierarchy && !projectileMachines[1].activeInHierarchy)
                     {
                         projectileMachines[0].SetActive(true);

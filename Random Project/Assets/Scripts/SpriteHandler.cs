@@ -8,6 +8,7 @@ public class SpriteHandler : MonoBehaviour
     [HideInInspector] public Anim currentAnim;
 
     Animator anim => GetComponent<Animator>();
+    [SerializeField] Animator gunAnimator;
 
     private void Update()
     {
@@ -23,6 +24,7 @@ public class SpriteHandler : MonoBehaviour
             return;
 
         anim.Play(newAnim.ToString());
+        gunAnimator.Play(newAnim.ToString());
         currentAnim = newAnim;
     }
 

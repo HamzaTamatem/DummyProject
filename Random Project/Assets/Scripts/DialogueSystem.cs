@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class DialogueSystem : MonoBehaviour
 {
+    //AudioSource myAudio => GetComponent<AudioSource>();
+
     [SerializeField] [TextArea] string[] arDialogues;
     [SerializeField] [TextArea] string[] enDialogues;
     [SerializeField] string enCharacterName;
@@ -42,7 +44,6 @@ public class DialogueSystem : MonoBehaviour
 
                     break;
             }
-            
             StopTalking();
         }
     }

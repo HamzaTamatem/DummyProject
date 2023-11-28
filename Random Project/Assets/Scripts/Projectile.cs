@@ -68,4 +68,9 @@ public class Projectile : MonoBehaviour
         yield return new WaitForSeconds(duration);
         Destroy(gameObject);
     }
+
+    private void OnDestroy()
+    {
+        FindAnyObjectByType<AudioManager>().Play("FireDestroy");
+    }
 }

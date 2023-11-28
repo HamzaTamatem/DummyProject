@@ -100,6 +100,13 @@ public class DialogueUI : MonoBehaviour
         }
     }
 
+    IEnumerator TalkingSound()
+    {
+        ds.gameObject.GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(0.3f);
+        ds.gameObject.GetComponent<AudioSource>().Stop();
+    }
+
     private void ArabicTxt(List<string> dialogue)
     {
         if (dialogueNum < dialogues.Count)
@@ -110,6 +117,8 @@ public class DialogueUI : MonoBehaviour
             arabicEffect.rtlText = txt;
             arabicEffect.TypeWrite(dialogue[dialogueNum]);
             //arTxt.text = dialogue[dialogueNum];
+            StartCoroutine(TalkingSound());
+
         }
         else
         {
@@ -124,6 +133,7 @@ public class DialogueUI : MonoBehaviour
     {
         if(dialogueNum < dialogues.Count)
         {
+            ds.gameObject.GetComponent<AudioSource>().Play();
             UpdateInfo();
             canText = false;
             foreach(char letter in dialogue[dialogueNum])
@@ -131,6 +141,8 @@ public class DialogueUI : MonoBehaviour
                 txt.text += letter;
                 yield return new WaitForSeconds(0.02f);
             }
+
+            ds.gameObject.GetComponent<AudioSource>().Stop();
         }
         else
         {

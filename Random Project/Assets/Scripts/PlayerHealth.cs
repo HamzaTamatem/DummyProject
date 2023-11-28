@@ -58,7 +58,8 @@ public class PlayerHealth : Flashable
         {
             return;
         }
-        
+
+        GetComponentInChildren<AudioManager>().Play("GetHurt");
         currentHealth -= amount;
         OnPlayerDamaged?.Invoke();
         HealthManager.UpdateNumberOfHearts(currentHealth);

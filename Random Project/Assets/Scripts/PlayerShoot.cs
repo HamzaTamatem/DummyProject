@@ -11,6 +11,9 @@ public class PlayerShoot : MonoBehaviour
 
     [SerializeField] private AudioManager audioManager;
 
+    [SerializeField] SpriteRenderer playerSpriteNormal;
+    [SerializeField] SpriteRenderer playerSpriteGun;
+
     public enum Prototype
     {
         None,
@@ -90,6 +93,9 @@ public class PlayerShoot : MonoBehaviour
         GameObject newProjectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
         audioManager.Play("Shoot");
 
+        StopCoroutine(ChangePlayerSprite());
+        StartCoroutine(ChangePlayerSprite());
+
         if (prototype == Prototype.AimShoot)
         {
             newProjectile.GetComponent<Projectile>().direction = aimDirection;
@@ -110,5 +116,16 @@ public class PlayerShoot : MonoBehaviour
         Shoot();
         yield return new WaitForSeconds(fireRate);
         isShooting = false;
+    }
+
+    private IEnumerator ChangePlayerSprite()
+    {
+        playerSpriteNormal.enabled = false;
+        playerSpriteGun.enabled = true;
+
+        yield return new WaitForSeconds(2);
+
+        playerSpriteNormal.enabled = true;
+        playerSpriteGun.enabled = false;
     }
 }
