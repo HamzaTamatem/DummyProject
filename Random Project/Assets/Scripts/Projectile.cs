@@ -71,6 +71,6 @@ public class Projectile : MonoBehaviour
 
     private void OnDestroy()
     {
-        FindAnyObjectByType<AudioManager>().Play("FireDestroy");
+        FindObjectOfType<AudioManager>().Play("FireDestroy");
     }
 }

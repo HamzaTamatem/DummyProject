@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -5,7 +6,11 @@ using UnityEngine.EventSystems;
 public class ButtonInteraction : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
 {
     [SerializeField] private UnityEvent buttonDown;
+    public event Action OnButtonDown;
+    
     [SerializeField] private UnityEvent buttonUp;
+    public event Action OnButtonUp;
+
 
     public bool buttonIsHeld = false;
     
@@ -13,6 +18,7 @@ public class ButtonInteraction : MonoBehaviour, IPointerDownHandler, IPointerUpH
     {
         // Debug.Log($"-- {nameof(OnPointerDown)} Event Detected from {gameObject.name} --");
         buttonDown?.Invoke();
+        OnButtonDown?.Invoke();
 
         buttonIsHeld = true;
     }
@@ -21,6 +27,7 @@ public class ButtonInteraction : MonoBehaviour, IPointerDownHandler, IPointerUpH
     {
         // Debug.Log($"-- {nameof(OnPointerUp)} Event Detected from {gameObject.name} --");
         buttonUp?.Invoke();
+        OnButtonUp?.Invoke();
         
         buttonIsHeld = false;
     }
