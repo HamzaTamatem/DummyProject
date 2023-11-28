@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class DeathScreenFade : MonoBehaviour
@@ -12,15 +13,15 @@ public class DeathScreenFade : MonoBehaviour
     [Tooltip("How long it will pause before fading in.")] 
     [SerializeField] private float fadeInPauseDuration;
 
-    private Image imageToFade;
-    [SerializeField] private SpriteRenderer beforeLastFade;
+    private SpriteRenderer spriteToFade;
+    [SerializeField] private SpriteRenderer secondSpriteFade;
 
     private void Awake()
     {
-        imageToFade = GetComponent<Image>();
+        spriteToFade = GetComponent<SpriteRenderer>();
         
         // make to sure to start at required opacity
-        imageToFade.color = new Color(imageToFade.color.r, imageToFade.color.g, imageToFade.color.b, startingOpacity);
+        spriteToFade.color = new Color(spriteToFade.color.r, spriteToFade.color.g, spriteToFade.color.b, startingOpacity);
     }
 
     private void OnEnable()
@@ -39,9 +40,9 @@ public class DeathScreenFade : MonoBehaviour
     public IEnumerator FadeInCoroutine(float pauseDuration)
     {
         yield return new WaitForSeconds(pauseDuration);
-        beforeLastFade.DOFade(2, fadeTime).OnComplete(() =>
+        spriteToFade.DOFade(1, fadeTime).OnComplete(() =>
         {
-            imageToFade.DOFade(2, fadeTime)
+            secondSpriteFade.DOFade(1, fadeTime)
                 .OnComplete(() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex));
         });
     }
@@ -54,7 +55,7 @@ public class DeathScreenFade : MonoBehaviour
     [ContextMenu("FadeOut()")]
     public void FadeOut()
     {
-        imageToFade.DOFade(0, fadeTime);
+        spriteToFade.DOFade(0, fadeTime);
     }
     
     
