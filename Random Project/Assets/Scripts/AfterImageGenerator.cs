@@ -7,6 +7,8 @@ public class AfterImageGenerator : MonoBehaviour
 
     [SerializeField] private SpriteRenderer spriteRendererToCopy;
     [SerializeField] private float spawnFrequency;
+    [SerializeField] private Color afterImageColor;
+    [SerializeField] private Material afterImageMaterial;
 
     [Header("Fade")] 
     [SerializeField] private float fadeDuration;
@@ -51,7 +53,8 @@ public class AfterImageGenerator : MonoBehaviour
 
         SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
         sr.sprite = spriteRendererToCopy.sprite;
-        sr.material = spriteRendererToCopy.material;
+        // sr.material = spriteRendererToCopy.material;
+        sr.material = afterImageMaterial;
         sr.sortingLayerID = spriteRendererToCopy.sortingLayerID;
         sr.sortingLayerName = spriteRendererToCopy.sortingLayerName;
         sr.sortingOrder = spriteRendererToCopy.sortingOrder - 1;
@@ -59,9 +62,15 @@ public class AfterImageGenerator : MonoBehaviour
         sr.flipY = spriteRendererToCopy.flipY;
         // Set initial opacity
         // sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, startingOpacity);
-        sr.color = new Color(0, 0, 0, startingOpacity);
+        // sr.color = new Color(0, 0, 0, startingOpacity);
+        sr.color = afterImageColor;
 
         AfterImage afterImage = go.AddComponent<AfterImage>();
         afterImage.FadeOut(fadeDuration);
+
+        Flashable flashable = go.AddComponent<Flashable>();
+        flashable.SetFlashColor(GetComponent<Flashable>().GetFlashColor());
+        flashable.SetFlashTime(fadeDuration);
+        flashable.CallDamageFlash();
     }
 }

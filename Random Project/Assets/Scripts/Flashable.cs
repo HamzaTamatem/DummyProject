@@ -103,4 +103,19 @@ public class Flashable : MonoBehaviour
         // StartCoroutine(FlashCoroutine());
         CallDamageFlash();
     }
+
+    public void SetFlashColor(Color color)
+    {
+        flashColor = color;
+    }
+
+    public Color GetFlashColor()
+    {
+        return flashColor;
+    }
+
+    public void SetFlashTime(float time)
+    {
+        flashTime = time;
+    }
 }
