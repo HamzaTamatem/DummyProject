@@ -39,6 +39,7 @@ public class CloseGate : MonoBehaviour
 
     private void StartBoss()
     {
+        GetComponent<AudioSource>().Stop();
         //Time.timeScale = 1;
         boss.enabled = true;
     }

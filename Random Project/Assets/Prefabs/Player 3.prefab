@@ -99,6 +99,18 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: GlassShatter
+    clip: {fileID: 8300000, guid: ac5a3d8b95eb72a4ab8a23446157a92b, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Explosion
+    clip: {fileID: 8300000, guid: a2fe92bba7edbeb429005d71be3727f7, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &2537674862353065067
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +248,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 1503331857, guid: b76951af00691474bbe7c04075a9de84, type: 3}
+  m_Sprite: {fileID: -378609708, guid: 18a208c0478017748be3ec17f19c2532, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -301,7 +313,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5306783018432112208
 Transform:
   m_ObjectHideFlags: 0
@@ -324,7 +336,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4498977814046438708}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -358,7 +370,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 1503331857, guid: b76951af00691474bbe7c04075a9de84, type: 3}
+  m_Sprite: {fileID: 1706373762, guid: 18a208c0478017748be3ec17f19c2532, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -379,7 +391,7 @@ Animator:
   m_GameObject: {fileID: 4498977814046438708}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 6ce0108e879fb4c4b936cabdd75245db, type: 2}
+  m_Controller: {fileID: 22100000, guid: 440d4ae6ed06b8448941e57ae96f5484, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

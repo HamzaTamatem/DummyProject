@@ -80,6 +80,9 @@ public class PlayerHealth : Flashable
             isDead = true;
             Debug.Log("-- Player died, reloading scene. --");
             // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            GetComponentInChildren<AudioManager>().Play("Explosion");
+            GetComponentInChildren<AudioManager>().Play("GlassShatter");
+
         }
 
         Debug.Log($"The current health of the player is: {currentHealth}");

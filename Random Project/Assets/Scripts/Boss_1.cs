@@ -50,7 +50,7 @@ public class Boss_1 : Enemy
         direction.x = 1;
 
         groundCheckDistance = 0.1f;
-        wallCheckDistance = 2.2f;
+        wallCheckDistance = 1.7f;
 
         actionSpamNumber = new int[Enum.GetValues(typeof(State)).Length];
 
