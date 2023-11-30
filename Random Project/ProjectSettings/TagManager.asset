@@ -19,8 +19,8 @@ TagManager:
   - Player
   - Projectile
   - RoomTrigger
-  - 
-  - 
+  - OnlyEnemy
+  - Enemy
   - 
   - 
   - 
@@ -47,6 +47,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: CameraSortingLayer
+    uniqueID: 1001434997
     locked: 0
   - name: Bullet
     uniqueID: 4289482543
