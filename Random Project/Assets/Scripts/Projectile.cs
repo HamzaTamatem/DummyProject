@@ -30,9 +30,10 @@ public class Projectile : MonoBehaviour
         
         // rotate the projectile to be facing the direction
         transform.rotation = Quaternion.Euler(0,0,angleInDegrees-90);
-        
+
         // destroy the projectile after a certain period of time
-        Die(lifetime);
+        //Die(lifetime);
+        Destroy(gameObject, lifetime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -44,16 +45,16 @@ public class Projectile : MonoBehaviour
                 enemy.TakeDamage(damage);
             }
             Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
-            Die(0);
+            Die(1);
         } else if (other.CompareTag("BlockBullet"))
         {
             Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
-            Die(0);
+            Die(1);
         }
         else
         {
             Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
-            Die(0);
+            Die(1);
         }
     }
 
@@ -65,12 +66,12 @@ public class Projectile : MonoBehaviour
 
     private IEnumerator DieCoroutine(float duration)
     {
-        yield return new WaitForSeconds(duration);
-        Destroy(gameObject);
-    }
-
-    private void OnDestroy()
-    {
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        _rigidbody2D.velocity = Vector3.zero;
         FindObjectOfType<AudioManager>().Play("FireDestroy");
+        yield return new WaitForSeconds(duration);
+        
+        Destroy(gameObject);
     }
 }
