@@ -59,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
 
     private AfterImageGenerator afterImageGenerator;
 
+    bool firstWallSlide;
+
     private void Awake()
     {
         pauseInput = false;
@@ -277,10 +279,22 @@ public class PlayerMovement : MonoBehaviour
             var SP = slideParticles.emission;
             SP.rateOverDistance = 10;
 
+            if (!firstWallSlide)
+            {
+                FindObjectOfType<AudioManager>().Play("Slide");
+                firstWallSlide = true;
+            }
+
             //slideParticles.Play();
         }
         else
         {
+            if (firstWallSlide)
+            {
+                FindObjectOfType<AudioManager>().Stop("Slide");
+                firstWallSlide = false;
+            }
+
             //Debug.Log("NOT WALLSLIDING!");
             isWallSliding = false;
         }

@@ -6,6 +6,8 @@ public class Boss_1 : Enemy
 {
     enum State { Idle, Jump, Dash, HitGround }
     State state;
+    [SerializeField] State testState;
+    [SerializeField] bool testMode;
 
     Transform playerPos;
     Rigidbody2D rb => GetComponent<Rigidbody2D>();
@@ -43,11 +45,13 @@ public class Boss_1 : Enemy
 
     BossSpriteHandler spriteHandler;
 
+    bool startState;
+
     public override void Awake()
     {
         base.Awake();
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
-        direction.x = 1;
+        direction.x = -1;
 
         groundCheckDistance = 0.1f;
         wallCheckDistance = 1.7f;
@@ -59,7 +63,41 @@ public class Boss_1 : Enemy
 
     private void FixedUpdate()
     {
-        CheckState();
+        if (testMode)
+        {
+            switch (testState)
+            {
+                case State.Idle:
+
+                    IdleUpdate();
+
+                    break;
+
+                case State.Jump:
+
+                    JumpUpdate();
+
+                    break;
+
+                case State.Dash:
+
+                    DashUpdate();
+
+                    break;
+
+                case State.HitGround:
+
+                    //print("HitGround");
+                    HitGroundUpdate();
+
+                    break;
+            }
+        }
+        else
+        {
+            CheckState();
+        }
+        
     }
 
     private void CheckState()
@@ -131,7 +169,13 @@ public class Boss_1 : Enemy
 
     private void JumpUpdate()
     {
-        if(!stopSetValue)
+        if (!startState)
+        {
+            print("Jump");
+            spriteHandler.ChangeAnim(BossSpriteHandler.Anim.JumpRight);
+            startState = true;
+        }
+        if (!stopSetValue)
         {
             currentActionTime = jumpTime;
             stopSetValue = true;
@@ -153,6 +197,7 @@ public class Boss_1 : Enemy
             if (touchGround)
             {
                 rb.velocity = Vector2.up * jumpForce;
+                spriteHandler.ChangeAnim(BossSpriteHandler.Anim.Land);
             }
 
             if (touchWall)
@@ -252,6 +297,11 @@ public class Boss_1 : Enemy
         }
     }
 
+    private void WaitTime()
+    {
+        
+    }
+
     private IEnumerator CanHitGround()
     {
         stopHitGround = true;
@@ -261,6 +311,7 @@ public class Boss_1 : Enemy
 
     private void BackToIdle()
     {
+        startState = false;
         rb.velocity = Vector2.zero;
         currentIdleTime = idleTime;
         state = State.Idle;

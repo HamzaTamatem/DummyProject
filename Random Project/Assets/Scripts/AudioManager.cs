@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
         s.source.Play();
     }
 
-    public void ChangeSound(string name , float minVolume , float maxVolume , float minPitch , float maxPitch)
+    public void Stop(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
 
@@ -41,7 +41,6 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        s.source.volume = UnityEngine.Random.Range(minVolume, maxVolume);
-        s.source.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
+        s.source.Stop();
     }
 }

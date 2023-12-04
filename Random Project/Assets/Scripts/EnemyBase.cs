@@ -5,6 +5,7 @@ public class EnemyBase : Enemy
         base.TakeDamage(amount);
         if (currentHealth <= 0)
         {
+            FindObjectOfType<AudioManager>().Play("EnemyDes");
             Destroy(gameObject);
             ProduceParticles();
         }
