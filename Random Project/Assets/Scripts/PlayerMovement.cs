@@ -140,6 +140,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(Vector2 input)
     {
+        if (pauseInput || pauseMovement)
+        {
+            return;
+        }
         _movementX = input.x;
         if (_movementX < 0)
         {
