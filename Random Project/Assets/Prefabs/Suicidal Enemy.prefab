@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 7f4e6c779592e2646bcf7f2f69e60744, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 70d26a8eccabb8043bfa988aa0986029, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -138,8 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashColor: {r: 0, g: 0, b: 0, a: 0}
-  flashDuration: 0
-  _originalColor: {r: 0, g: 0, b: 0, a: 0}
+  flashTime: 0
   damage: 1
   currentHealth: 1
   maxHealth: 1
@@ -537,7 +536,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &4406454989315016881
