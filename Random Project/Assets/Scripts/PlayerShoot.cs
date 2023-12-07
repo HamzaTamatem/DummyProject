@@ -30,6 +30,9 @@ public class PlayerShoot : MonoBehaviour
 
     private Vector2 aimDirection;
 
+    [SerializeField] float maxChangeSpriteTime;
+    float changeSpriteTime;
+
     private void Awake()
     {
         _controls = new Controls();
@@ -63,7 +66,20 @@ public class PlayerShoot : MonoBehaviour
         {
             // Prototype.None (nothing to do)
         }
-        
+
+        //if normal character sprite is disabled, start timer to get back to normal sprite
+        if (!playerSpriteNormal.enabled)
+        {
+            if (changeSpriteTime <= 0)
+            {
+                playerSpriteNormal.enabled = true;
+                playerSpriteGun.enabled = false;
+            }
+            else
+            {
+                changeSpriteTime -= Time.deltaTime;
+            }
+        }
     }
     
     private void OnDisable()
@@ -93,8 +109,9 @@ public class PlayerShoot : MonoBehaviour
         GameObject newProjectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
         audioManager.Play("Shoot");
 
-        StopCoroutine(ChangePlayerSprite());
-        StartCoroutine(ChangePlayerSprite());
+        changeSpriteTime = maxChangeSpriteTime;
+        playerSpriteNormal.enabled = false;
+        playerSpriteGun.enabled = true;
 
         if (prototype == Prototype.AimShoot)
         {
@@ -116,16 +133,5 @@ public class PlayerShoot : MonoBehaviour
         Shoot();
         yield return new WaitForSeconds(fireRate);
         isShooting = false;
-    }
-
-    private IEnumerator ChangePlayerSprite()
-    {
-        playerSpriteNormal.enabled = false;
-        playerSpriteGun.enabled = true;
-
-        yield return new WaitForSeconds(2);
-
-        playerSpriteNormal.enabled = true;
-        playerSpriteGun.enabled = false;
     }
 }

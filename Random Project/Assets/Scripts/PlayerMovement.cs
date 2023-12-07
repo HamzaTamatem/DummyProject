@@ -502,6 +502,7 @@ public class PlayerMovement : MonoBehaviour
             afterImageGenerator.Play();
             Instantiate(dashEffectPrefab, dashEffectSpawnPosition.position, transform.rotation);
             spriteHandler.ChangeAnim(SpriteHandler.Anim.DashStart);
+            FindObjectOfType<AudioManager>().Play("Dash");
             isDashing = true;
             // dashEffect.Play();
             dashTimer = dashCooldown;

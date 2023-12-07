@@ -212,6 +212,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Dash
+    clip: {fileID: 8300000, guid: b1f2eb44de0582042a6c4d278a9d10e7, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &2537674862353065067
 GameObject:
   m_ObjectHideFlags: 0
@@ -5487,7 +5493,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -5484753
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
