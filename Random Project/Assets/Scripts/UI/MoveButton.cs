@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
@@ -12,7 +11,9 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     [SerializeField] private bool isBeingHeld;
 
     public static bool xMovementButtonHeld = false;
-    
+    // public static bool horizontalMovementReversed;
+
+    public static Vector2 MoveInput => moveInput;
     private static Vector2 moveInput = Vector2.zero;
     
     public static event Action OnMoveDown;
@@ -26,7 +27,16 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
                 OnMoveDown?.Invoke();
             });
         }
-       
+
+        isBeingHeld = false;
+    }
+
+    private void FixedUpdate()
+    {
+        if (isBeingHeld && (moveDirection == MoveDirection.Right || moveDirection == MoveDirection.Left))
+        {
+            OnMovePressed?.Invoke(moveInput);
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -83,7 +93,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Debug.Log(nameof(OnPointerEnter));
+        Debug.Log(nameof(OnPointerEnter));
         switch (moveDirection)
         {
             case MoveDirection.Right:

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class VoltageObstacle : MonoBehaviour
@@ -6,9 +7,13 @@ public class VoltageObstacle : MonoBehaviour
     Animator anim => GetComponent<Animator>();
 
     [SerializeField] float startWaitTime;
+    [Tooltip("The time it will take for the effect of reversed horizontal movement to take off.")]
+    [SerializeField] private float stunTime;
     float waitTime;
 
     bool active;
+
+    public static event Action<float> OnPlayerHitVoltageBall;
 
     void Update()
     {
@@ -36,6 +41,14 @@ public class VoltageObstacle : MonoBehaviour
         {
             col.enabled = false;
             anim.Play("Deactive");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            OnPlayerHitVoltageBall?.Invoke(stunTime);
         }
     }
 }

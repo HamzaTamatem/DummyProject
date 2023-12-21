@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded;
     public bool canWallSlide;
     public static bool isWallSliding;
+    public bool movementIsReversed;
     
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
@@ -81,6 +82,8 @@ public class PlayerMovement : MonoBehaviour
         _controls.Player.Move.performed += OnMovementPerformed;
         _controls.Player.Move.canceled += OnMovementCanceled;
         MoveButton.OnMovePressed += Move;
+
+        VoltageObstacle.OnPlayerHitVoltageBall += ReverseHorizontalMovement;
     }
 
     private void FixedUpdate()
@@ -118,6 +121,8 @@ public class PlayerMovement : MonoBehaviour
         _controls.Player.Move.performed -= OnMovementPerformed;
         _controls.Player.Move.canceled -= OnMovementCanceled;
         MoveButton.OnMovePressed -= Move;
+        
+        VoltageObstacle.OnPlayerHitVoltageBall -= ReverseHorizontalMovement;
     }
 
     public void Move(float inputX)
@@ -144,7 +149,9 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        _movementX = input.x;
+
+        _movementX = movementIsReversed ? -input.x : input.x;
+        
         if (_movementX < 0)
         {
             _movementX /= _movementX * -1;
@@ -228,6 +235,22 @@ public class PlayerMovement : MonoBehaviour
     public void JumpRemember()
     {
         jumpPressedRemember = jumpPressedRememberTime;
+    }
+
+    private void ReverseHorizontalMovement(float duration)
+    {
+        StartCoroutine(ReverseHorizontalMovementCoroutine(duration));
+        // _movementX *= -1;
+    }
+
+    private IEnumerator ReverseHorizontalMovementCoroutine(float duration)
+    {
+        Debug.Log(nameof(ReverseHorizontalMovementCoroutine));
+        movementIsReversed = true;
+        Debug.Log("MOVEMENT IS NOW REVERSED");
+        yield return new WaitForSeconds(duration);
+        movementIsReversed = false;
+        Debug.Log("MOVEMENT IS NOW BACK TO NORMAL");
     }
 
     private void MovePlayer()
