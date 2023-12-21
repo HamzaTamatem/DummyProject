@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Boss_1 : Enemy
 {
-    enum State { Idle, Jump, Dash, HitGround }
+    enum State { Idle, Jump, Dash, HitGround,None }
     State state;
     [SerializeField] State testState;
     [SerializeField] bool testMode;
@@ -33,6 +33,7 @@ public class Boss_1 : Enemy
     [SerializeField] GameObject[] projectileMachines;
 
     Vector2 direction;
+    Vector2 firstPos;
 
     float groundCheckDistance;
     float wallCheckDistance;
@@ -47,6 +48,8 @@ public class Boss_1 : Enemy
 
     bool startState;
 
+    [SerializeField] GameObject flashImg;
+
     public override void Awake()
     {
         base.Awake();
@@ -59,6 +62,8 @@ public class Boss_1 : Enemy
         actionSpamNumber = new int[Enum.GetValues(typeof(State)).Length];
 
         spriteHandler = GetComponentInChildren<BossSpriteHandler>();
+
+        firstPos = transform.position;
     }
 
     private void FixedUpdate()
@@ -137,6 +142,8 @@ public class Boss_1 : Enemy
 
         if (currentIdleTime <= 0)
         {
+            print("Idle");
+
             int randMove = UnityEngine.Random.Range(1, Enum.GetValues(typeof(State)).Length);
             currentIdleTime = idleTime;
 
@@ -323,10 +330,31 @@ public class Boss_1 : Enemy
 
     public override void TakeDamage(int amount)
     {
+        if (state == State.None)
+            return;
+
         base.TakeDamage(amount);
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            StartCoroutine(Die());
         }
+    }
+
+    IEnumerator Die()
+    {
+        state = State.None;
+        rb.velocity = Vector2.zero;
+        transform.Find("HitBox").gameObject.SetActive(false);
+        flashImg.SetActive(true);
+
+        yield return new WaitForSeconds(0.2f);
+
+        transform.localScale = new Vector3(-1, 1, 1);
+        transform.position = firstPos;
+        spriteHandler.ChangeAnim(BossSpriteHandler.Anim.Death);
+
+        yield return new WaitForSeconds(0.2f);
+        transform.localScale = new Vector3(-1, 1, 1);
+        flashImg.SetActive(false);
     }
 }

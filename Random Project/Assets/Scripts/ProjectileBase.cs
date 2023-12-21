@@ -7,6 +7,8 @@ public class ProjectileBase : MonoBehaviour
     [SerializeField] public float speed, currentSpeed;
     [HideInInspector] public bool aim;
 
+    [SerializeField] bool dontDesOnTouchGround;
+
     private void Awake()
     {
         Destroy(gameObject, 5);
@@ -31,11 +33,11 @@ public class ProjectileBase : MonoBehaviour
         rb.velocity = transform.up * currentSpeed;
     }
 
-    // private void OnTriggerEnter2D(Collider2D col)
-    // {
-    //     if (col.gameObject.layer == 6)
-    //     {
-    //         Destroy(gameObject);
-    //     }
-    // }
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.layer == 6 && !dontDesOnTouchGround)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

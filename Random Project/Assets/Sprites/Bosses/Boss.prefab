@@ -332,7 +332,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &3691085033325600716
@@ -425,6 +425,8 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 100
   deathParticles: {fileID: 0}
+  testState: 0
+  testMode: 0
   idleTime: 1
   jumpTime: 4
   dashTime: 4
