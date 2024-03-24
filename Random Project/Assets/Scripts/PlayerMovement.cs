@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
+    private Rigidbody2D rb => GetComponent<Rigidbody2D>();
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpPressedRememberTime;
@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canDash;
     
     private float dashTimer;
-    private SpriteHandler spriteHandler;
+    public SpriteHandler spriteHandler;
 
     private Coroutine waitUntilLand;
 
@@ -61,12 +61,21 @@ public class PlayerMovement : MonoBehaviour
     private AfterImageGenerator afterImageGenerator;
 
     bool firstWallSlide;
+    bool stop;
+
+    [SerializeField] Animator normalAnim;
+    [SerializeField] Animator gunAnim;
+
+    [SerializeField] AnimatorOverrideController[] normalSkins;
+    [SerializeField] AnimatorOverrideController[] gunSkins;
+
+    [SerializeField] int skinNumber;
 
     private void Awake()
     {
         pauseInput = false;
         _controls = new Controls();
-        rb = GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();
         spriteHandler = GetComponentInChildren<SpriteHandler>();
         afterImageGenerator = GetComponent<AfterImageGenerator>();
 
@@ -74,6 +83,9 @@ public class PlayerMovement : MonoBehaviour
         slideParticles = transform.Find("Slide Particles").GetComponent<ParticleSystem>();
 
         moveSpeed = normalMoveSpeed;
+
+        normalAnim.runtimeAnimatorController = normalSkins[skinNumber];
+        gunAnim.runtimeAnimatorController = gunSkins[skinNumber];
     }
 
     private void OnEnable()
@@ -91,14 +103,15 @@ public class PlayerMovement : MonoBehaviour
         if (!pauseMovement)
         {
             MovePlayer();
-            TryWallSlide();
+            //TryWallSlide();
         }
-        
-        
     }
 
     void Update()
     {
+        if (stop)
+            return;
+
         jumpPressedRemember -= Time.deltaTime;
         groundedRemember -= Time.deltaTime;
         
@@ -109,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
         // MovePlayer();
         HandlePlayerDirection();
 
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.RightShift))
         {
             Dash();
         }
@@ -259,6 +272,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
+
         // float horizontalVelocity = rb.velocity.x;
         // horizontalVelocity += _movementX;
         // horizontalVelocity *= Mathf.Pow(1f - horizontalDamping, Time.deltaTime * 10);
@@ -289,51 +303,51 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void TryWallSlide()
-    {
-        canWallSlide = Physics2D.Raycast(transform.position, transform.right, distanceToTriggerWallSlide, groundLayer);
-        //Debug.DrawLine(transform.position,transform.position + (distanceToTriggerWallSlide*transform.right),Color.blue);
+    //public void TryWallSlide()
+    //{
+    //    canWallSlide = Physics2D.Raycast(transform.position, transform.right, distanceToTriggerWallSlide, groundLayer);
+    //    //Debug.DrawLine(transform.position,transform.position + (distanceToTriggerWallSlide*transform.right),Color.blue);
 
-        // if the player is falling, then we can check for a wall slide
-        if (rb.velocity.y < 0 && canWallSlide)
-        {
-            //Debug.Log("WALLSLIDING!");
-            // rb.AddForce(Vector2.up * wallSlidingSpeed, ForceMode2D.Impulse);
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
-            isWallSliding = true;
+    //    // if the player is falling, then we can check for a wall slide
+    //    if (rb.velocity.y < 0 && canWallSlide)
+    //    {
+    //        //Debug.Log("WALLSLIDING!");
+    //        // rb.AddForce(Vector2.up * wallSlidingSpeed, ForceMode2D.Impulse);
+    //        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+    //        isWallSliding = true;
 
-            spriteHandler.ChangeAnim(SpriteHandler.Anim.Slide);
-            var SP = slideParticles.emission;
-            SP.rateOverDistance = 10;
+    //        spriteHandler.ChangeAnim(SpriteHandler.Anim.Slide);
+    //        var SP = slideParticles.emission;
+    //        SP.rateOverDistance = 10;
 
-            if (!firstWallSlide)
-            {
-                FindObjectOfType<AudioManager>().Play("Slide");
-                firstWallSlide = true;
-            }
+    //        if (!firstWallSlide)
+    //        {
+    //            FindObjectOfType<AudioManager>().Play("Slide");
+    //            firstWallSlide = true;
+    //        }
 
-            //slideParticles.Play();
-        }
-        else
-        {
-            if (firstWallSlide)
-            {
-                FindObjectOfType<AudioManager>().Stop("Slide");
-                firstWallSlide = false;
-            }
+    //        //slideParticles.Play();
+    //    }
+    //    else
+    //    {
+    //        if (firstWallSlide)
+    //        {
+    //            FindObjectOfType<AudioManager>().Stop("Slide");
+    //            firstWallSlide = false;
+    //        }
 
-            //Debug.Log("NOT WALLSLIDING!");
-            isWallSliding = false;
-        }
+    //        //Debug.Log("NOT WALLSLIDING!");
+    //        isWallSliding = false;
+    //    }
 
-        if (spriteHandler.currentAnim == SpriteHandler.Anim.Slide && !isWallSliding)
-        {
-            //spriteHandler.ChangeAnim(SpriteHandler.Anim.Idle);
-            var SP = slideParticles.emission;
-            SP.rateOverDistance = 0;
-            //print("Not wall slideing");
-        }
-    }
+    //    if (spriteHandler.currentAnim == SpriteHandler.Anim.Slide && !isWallSliding)
+    //    {
+    //        //spriteHandler.ChangeAnim(SpriteHandler.Anim.Idle);
+    //        var SP = slideParticles.emission;
+    //        SP.rateOverDistance = 0;
+    //        //print("Not wall slideing");
+    //    }
+    //}
 
     //IEnumerator WaitUntilLand()
     //{
@@ -348,7 +362,7 @@ public class PlayerMovement : MonoBehaviour
     public void TryJump()
     {
         // ground check
-        isGrounded = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0,groundLayer);
+        isGrounded = Physics2D.CircleCast(groundCheck.position, 0.2f, Vector2.down, 0,groundLayer);
 
         if (isGrounded)
         {
@@ -422,15 +436,41 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(PauseJumpCoroutine(duration));
     }
 
-    private void OnDrawGizmos()
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireSphere(groundCheck.position, 0.5f);
+    //}
+
+    public void StopPlayer(bool stop)
     {
-        Gizmos.DrawWireSphere(groundCheck.position, 0.5f);
+        if (stop)
+        {
+            pauseMovement = true;
+            _movementX = 0;
+
+            rb.velocity = Vector2.zero;
+
+            _controls.Disable();
+            pauseInput = true;
+            stop = true;
+            //moveSpeed = 0;
+            spriteHandler.ChangeAnim(SpriteHandler.Anim.Idle);
+        }
+        else
+        {
+            pauseMovement = false;
+            _controls.Enable();
+            pauseInput = false;
+            stop = false;
+        }
+        
     }
     
     private IEnumerator PausePlayerMovementCoroutine(float duration)
     {
         // Debug.Log("Movement is paused.");
         pauseMovement = true;
+        _movementX = 0;
         dashTimer = duration;
         yield return new WaitForSeconds(duration);
         // Debug.Log("Movement is resumed.");
@@ -493,21 +533,28 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
 
-        Debug.Log($"Random Angle in Quadrant {pushDirection.ToString()}: {randomAngle}");
+        //Debug.Log($"Random Angle in Quadrant {pushDirection.ToString()}: {randomAngle}");
         return randomAngle;
     }
 
     private IEnumerator FreezePlayerCoroutine(float duration)
     {
         float originalSpeed = moveSpeed;
+
+        rb.velocity = Vector2.zero;
         
         _controls.Disable();
         pauseInput = true;
+        stop = true;
         moveSpeed = 0;
         dashTimer = duration;
+
+        spriteHandler.ChangeAnim(SpriteHandler.Anim.Idle);
+        //_movementX = 0;
         yield return new WaitForSeconds(duration);
         _controls.Enable();
         pauseInput = false;
+        stop = false;
         moveSpeed = originalSpeed;
     }
 
@@ -539,22 +586,26 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, 0f);
             
             yield return new WaitForSeconds(dashTime);
-            spriteHandler.ChangeAnim(SpriteHandler.Anim.DashEnd);
-            moveSpeed = normalMoveSpeed;
-            if (MoveButton.xMovementButtonHeld)
-                _movementX = transform.right.x;
-            else
-                _movementX = 0f;
-            isDashing = false;
-            rb.gravityScale = originalGravityScale;
-            dashEffect.Stop();
-            afterImageGenerator.Stop();
+
+            if (!stop)
+            {
+                spriteHandler.ChangeAnim(SpriteHandler.Anim.DashEnd);
+                moveSpeed = normalMoveSpeed;
+                if (MoveButton.xMovementButtonHeld)
+                    _movementX = transform.right.x;
+                else
+                    _movementX = 0f;
+                isDashing = false;
+                rb.gravityScale = originalGravityScale;
+                dashEffect.Stop();
+                afterImageGenerator.Stop();
+            }
         }
     }
 
     public void Dash()
     {
-        Debug.Log(nameof(Dash));
+        //Debug.Log(nameof(Dash));
         StartCoroutine(DashCoroutine());
     }
 

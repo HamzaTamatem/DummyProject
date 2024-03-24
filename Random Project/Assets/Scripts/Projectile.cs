@@ -33,7 +33,8 @@ public class Projectile : MonoBehaviour
 
         // destroy the projectile after a certain period of time
         //Die(lifetime);
-        Destroy(gameObject, lifetime);
+        //Destroy(gameObject, lifetime);
+        StartCoroutine(ExpiredDie());
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -44,18 +45,19 @@ public class Projectile : MonoBehaviour
             {
                 enemy.TakeDamage(damage);
             }
-            Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
-            Die(1);
-        } else if (other.CompareTag("BlockBullet"))
-        {
-            Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
+            //Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
             Die(1);
         }
-        else
+        else if(other.gameObject.layer == 6)
         {
-            Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
+            //Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
             Die(1);
         }
+        //else if (other.CompareTag("BlockBullet"))
+        //{
+        //    //Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
+        //    Die(1);
+        //}
     }
 
     public void Die(float duration)
@@ -70,8 +72,20 @@ public class Projectile : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         _rigidbody2D.velocity = Vector3.zero;
         FindObjectOfType<AudioManager>().Play("FireDestroy");
+        Instantiate(onImpactParticlePrefab, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(duration);
         
         Destroy(gameObject);
+    }
+
+    private IEnumerator ExpiredDie()
+    {
+        yield return new WaitForSeconds(lifetime);
+        StartCoroutine(DieCoroutine(1));
+    }
+
+    public void ChangeSprite()
+    {
+
     }
 }

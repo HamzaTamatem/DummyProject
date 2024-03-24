@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Boss_1 : Enemy
 {
-    enum State { Idle, Jump, Dash, HitGround,None }
+    enum State { Idle, Jump, Dash, HitGround, None }
     State state;
     [SerializeField] State testState;
     [SerializeField] bool testMode;
@@ -41,6 +42,7 @@ public class Boss_1 : Enemy
     bool startProjectileMachine;
     bool stopHitGround;
     bool stopSetValue;
+    bool die;
 
     [SerializeField] int[] actionSpamNumber;
 
@@ -49,6 +51,10 @@ public class Boss_1 : Enemy
     bool startState;
 
     [SerializeField] GameObject flashImg;
+    [SerializeField] Image healthFill;
+    [SerializeField] Image hitFill;
+
+    bool startHitFillBar;
 
     public override void Awake()
     {
@@ -66,8 +72,26 @@ public class Boss_1 : Enemy
         firstPos = transform.position;
     }
 
+    private void Update()
+    {
+        if (startHitFillBar)
+        {
+            if(healthFill.fillAmount < hitFill.fillAmount)
+            {
+                hitFill.fillAmount -= Time.deltaTime * 0.5f;
+            }
+            else
+            {
+                startHitFillBar = false;
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
+        if (die)
+            return;
+
         if (testMode)
         {
             switch (testState)
@@ -92,7 +116,6 @@ public class Boss_1 : Enemy
 
                 case State.HitGround:
 
-                    //print("HitGround");
                     HitGroundUpdate();
 
                     break;
@@ -129,7 +152,6 @@ public class Boss_1 : Enemy
 
             case State.HitGround:
 
-                //print("HitGround");
                 HitGroundUpdate();
 
                 break;
@@ -142,14 +164,12 @@ public class Boss_1 : Enemy
 
         if (currentIdleTime <= 0)
         {
-            print("Idle");
-
-            int randMove = UnityEngine.Random.Range(1, Enum.GetValues(typeof(State)).Length);
+            int randMove = UnityEngine.Random.Range(1, Enum.GetValues(typeof(State)).Length - 1);
             currentIdleTime = idleTime;
 
             if(actionSpamNumber[randMove] >= 2)
             {
-                randMove = UnityEngine.Random.Range(1, Enum.GetValues(typeof(State)).Length);
+                randMove = UnityEngine.Random.Range(1, Enum.GetValues(typeof(State)).Length - 1);
             }
 
             state = (State)randMove;
@@ -178,7 +198,6 @@ public class Boss_1 : Enemy
     {
         if (!startState)
         {
-            print("Jump");
             spriteHandler.ChangeAnim(BossSpriteHandler.Anim.JumpRight);
             startState = true;
         }
@@ -338,10 +357,19 @@ public class Boss_1 : Enemy
         {
             StartCoroutine(Die());
         }
+
+        healthFill.fillAmount = currentHealth / maxHealth;
+        Invoke("HitBarStart", 1);
+    }
+
+    private void HitBarStart()
+    {
+        startHitFillBar = true;
     }
 
     IEnumerator Die()
     {
+        die = true;
         state = State.None;
         rb.velocity = Vector2.zero;
         transform.Find("HitBox").gameObject.SetActive(false);
@@ -349,12 +377,13 @@ public class Boss_1 : Enemy
 
         yield return new WaitForSeconds(0.2f);
 
-        transform.localScale = new Vector3(-1, 1, 1);
+        transform.localScale = new Vector3(1, 1, 1);
+        spriteHandler.transform.localScale = new Vector3(-1, 1, 1);
         transform.position = firstPos;
         spriteHandler.ChangeAnim(BossSpriteHandler.Anim.Death);
 
         yield return new WaitForSeconds(0.2f);
-        transform.localScale = new Vector3(-1, 1, 1);
+        //transform.localScale = new Vector3(-1, 1, 1);
         flashImg.SetActive(false);
     }
 }

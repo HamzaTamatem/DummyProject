@@ -15,7 +15,7 @@ public class AfterImage : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Started with opacity: " + sr.color.a);
+        //Debug.Log("Started with opacity: " + sr.color.a);
     }
 
     public void FadeOut(float fadeDuration)

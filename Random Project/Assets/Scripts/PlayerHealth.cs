@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerHealth : Flashable
 {
@@ -28,7 +27,7 @@ public class PlayerHealth : Flashable
         OnPlayerDamaged += Flash;
 
         currentHealth = maxHealth;
-        Debug.Log($"Player started with health: {currentHealth}");
+        //Debug.Log($"Player started with health: {currentHealth}");
     }
     
     private void OnDisable()
@@ -77,15 +76,15 @@ public class PlayerHealth : Flashable
             OnPlayerDeath?.Invoke();
             Handheld.Vibrate();
             playerAnimator.Play("Death");
+            //print("Play Death animatin");
             isDead = true;
-            Debug.Log("-- Player died, reloading scene. --");
+            //Debug.Log("-- Player died, reloading scene. --");
             // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             GetComponentInChildren<AudioManager>().Play("Explosion");
             GetComponentInChildren<AudioManager>().Play("GlassShatter");
-
         }
 
-        Debug.Log($"The current health of the player is: {currentHealth}");
+        //Debug.Log($"The current health of the player is: {currentHealth}");
     }
 
     private IEnumerator PauseTakingDamageCoroutine()

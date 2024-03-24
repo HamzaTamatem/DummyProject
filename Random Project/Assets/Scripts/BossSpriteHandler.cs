@@ -18,8 +18,6 @@ public class BossSpriteHandler : MonoBehaviour
 
         anim.Play(newAnim.ToString());
         currentAnim = newAnim;
-
-        print(currentAnim.ToString());
     }
 
     public void JumpAnim()

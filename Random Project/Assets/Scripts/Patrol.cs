@@ -15,6 +15,8 @@ public class Patrol : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    bool stopDetect;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -26,13 +28,25 @@ public class Patrol : MonoBehaviour
 
         bool hitHorizontal = Physics2D.Raycast(patrolCheckRightLeft.transform.position, dir, 1,layerMask);
         bool hitUnder = Physics2D.Raycast(patrolCheckerUnder.position, -transform.up, 1, layerMask);
-        
-        Debug.DrawLine(patrolCheckerUnder.position, patrolCheckerUnder.position + new Vector3(0,-1,0));
+
+        //Debug.DrawLine(patrolCheckerUnder.position, patrolCheckerUnder.position + new Vector3(0,-1,0));
+
+        if (stopDetect)
+            return;
 
         if (hitHorizontal || !hitUnder)
         {
             dir = -dir;
             patrolCheckRightLeft.localScale = new Vector3(-patrolCheckRightLeft.localScale.x, patrolCheckRightLeft.localScale.y);
+            transform.localScale = new Vector3(-dir.x, patrolCheckRightLeft.localScale.y);
+            stopDetect = true;
+
+            Invoke("CanDetect",0.1f);
         }
+    }
+
+    private void CanDetect()
+    {
+        stopDetect = false;
     }
 }

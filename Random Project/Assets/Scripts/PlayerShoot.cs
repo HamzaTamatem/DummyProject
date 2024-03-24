@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private Transform projectileSpawnPoint;
-    [SerializeField] private GameObject projectilePrefab;
+    private GameObject projectilePrefab;
+    [SerializeField] GameObject[] allProjectilePrefabs;
     [SerializeField] private float timeBetweenShots = 1;
     [SerializeField] private ButtonInteraction shootButton;
 
@@ -13,6 +14,8 @@ public class PlayerShoot : MonoBehaviour
 
     [SerializeField] SpriteRenderer playerSpriteNormal;
     [SerializeField] SpriteRenderer playerSpriteGun;
+
+    [SerializeField] int projectileNumber;
 
     public enum Prototype
     {
@@ -36,6 +39,14 @@ public class PlayerShoot : MonoBehaviour
     private void Awake()
     {
         _controls = new Controls();
+
+        projectilePrefab = allProjectilePrefabs[projectileNumber];
+    }
+
+    private void PlayerDie()
+    {
+        playerSpriteNormal.enabled = true;
+        playerSpriteGun.enabled = false;
     }
 
     private void OnEnable()
@@ -43,6 +54,7 @@ public class PlayerShoot : MonoBehaviour
         _controls.Enable();
         _controls.Player.Shoot.performed += GetAimDirection;
         _controls.Player.Shoot.canceled += ResetAimDirection;
+        PlayerHealth.OnPlayerDeath += PlayerDie;
     }
 
     private void Update()
@@ -87,6 +99,7 @@ public class PlayerShoot : MonoBehaviour
         _controls.Disable();
         _controls.Player.Shoot.performed -= GetAimDirection;
         _controls.Player.Shoot.canceled -= ResetAimDirection;
+        PlayerHealth.OnPlayerDeath -= PlayerDie;
     }
 
     private void GetAimDirection(InputAction.CallbackContext obj)

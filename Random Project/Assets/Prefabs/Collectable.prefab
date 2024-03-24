@@ -4987,7 +4987,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a8d82c33049465d43b64f85de1892538, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 0.02
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4996,7 +4996,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 6
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -5105,7 +5105,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
 --- !u!114 &7645700576258904094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5118,6 +5118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6a68cc103f1cd4ebdd87cc9e2d0785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batteryAmmount: 2
 --- !u!95 &7019581945298900561
 Animator:
   serializedVersion: 5

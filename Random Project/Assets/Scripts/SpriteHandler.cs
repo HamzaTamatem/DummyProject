@@ -4,19 +4,19 @@ public class SpriteHandler : MonoBehaviour
 {
     [SerializeField] AudioManager audioManager;
 
-    public enum Anim { Idle, Run, Jump, Fall, Land, Slide, DashStart, DashMid, DashEnd }
+    public enum Anim { Idle, Run, Jump, Fall, Land, Slide, DashStart, DashMid, DashEnd, Dance_1 }
     [HideInInspector] public Anim currentAnim;
 
     Animator anim => GetComponent<Animator>();
     [SerializeField] Animator gunAnimator;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            PlaySound("Slide");
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.G))
+    //    {
+    //        PlaySound("Slide");
+    //    }
+    //}
 
     public void ChangeAnim(Anim newAnim)
     {

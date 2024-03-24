@@ -4,15 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using RTLTMPro;
+using System;
 
 public class DialogueUI : MonoBehaviour
 {
     public enum Languages { en,ar }
     public Languages language;
 
+    public static DialogueUI Instance;
+
+    public static Action OnLanguageChanged;
+
     //Refs
     GameObject dialogueBox;
-    TMP_Text /*enTxt*/enName;
+    [SerializeField] TMP_Text /*enTxt*/enName;
     [SerializeField] RTLTextMeshPro txt,arName;
     [SerializeField] Image portrait;
     //PlayerController pc;
@@ -28,11 +33,25 @@ public class DialogueUI : MonoBehaviour
 
     [SerializeField] HorizontalLayoutGroup horizontalFolder;
 
+    //Canvas speedRunCanvas;
+
     private void Awake()
     {
         dialogueBox = transform.Find("DialogueBox").gameObject;
+        //enName = dialogueBox.transform.Find("EnName").GetComponent<TMP_Text>();
+        //speedRunCanvas = GameObject.Find("SpeedRunCanvas").GetComponent<Canvas>();
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
         //enTxt = dialogueBox.transform.Find("EnTxt").GetComponent<TMP_Text>();
-        enName = dialogueBox.transform.Find("EnName").GetComponent<TMP_Text>();
         //txt = dialogueBox.transform.Find("Txt").GetComponent<RTLTextMeshPro>();
         //arName = dialogueBox.transform.Find("ArName").GetComponent<RTLTextMeshPro>();
         //portrait = dialogueBox.transform.Find("Portrait").GetComponent<Image>();
@@ -45,19 +64,24 @@ public class DialogueUI : MonoBehaviour
         {
             horizontalFolder.reverseArrangement = false;
             txt.alignment = TextAlignmentOptions.Left;
+            portrait.rectTransform.localScale = new Vector2(1, 1);
         }
         else
         {
             horizontalFolder.reverseArrangement = true;
             txt.alignment = TextAlignmentOptions.Right;
+            portrait.rectTransform.localScale = new Vector2(-1, 1);
         }
     }
 
     //Call when dialogue start to assign the name, image and dialogue
     public void StartDialogue(string name,Sprite img,string[] dialogue,DialogueSystem currentDialogue)
     {
+        //speedRunCanvas.enabled = false;
         dialogueBox.SetActive(true);
         portrait.sprite = img;
+
+        currentName = name;
 
         switch (language)
         {
@@ -81,7 +105,7 @@ public class DialogueUI : MonoBehaviour
             dialogues.Add(dialogue[i]);
         }
 
-        currentName = name;
+        //currentName = name;
 
         ChooseLanguage();
     }
@@ -181,6 +205,7 @@ public class DialogueUI : MonoBehaviour
     //Call when dialogue ends to close the dialogue box
     private void EndDialogue()
     {
+        //speedRunCanvas.enabled = true;
         dialogueBox.SetActive(false);
         //pc.StopMoving(false);
         //player can move now
@@ -188,6 +213,9 @@ public class DialogueUI : MonoBehaviour
         //enTxt.text = "";
         txt.text = "";
         dialogues.Clear();
+        ds.ActiveAfterDialogue();
+        PlayerMovement playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        playerMovement.StopPlayer(false);
     }
 
     private void Update()
@@ -205,5 +233,13 @@ public class DialogueUI : MonoBehaviour
 
             ChooseLanguage();
         }
+    }
+
+    public void ChangeLanguage(bool isArabic)
+    {
+        language = isArabic ? Languages.ar : Languages.en;
+        OnLanguageChanged?.Invoke();
+
+        print(language);
     }
 }

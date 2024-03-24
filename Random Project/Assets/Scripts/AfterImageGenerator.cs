@@ -19,7 +19,7 @@ public class AfterImageGenerator : MonoBehaviour
 
     public void Play()
     {
-        Debug.Log(nameof(Play));
+        //Debug.Log(nameof(Play));
         if (spawnCoroutine != null)
         {
             StopCoroutine(spawnCoroutine);

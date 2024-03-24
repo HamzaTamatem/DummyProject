@@ -10,6 +10,10 @@ public class ObstacleBase : MonoBehaviour
 
     Vector2 direction;
 
+    [SerializeField] bool canHitGround;
+
+    [SerializeField] ParticleSystem desroyParctles;
+
     private void Start()
     {
         SetDirections();
@@ -44,6 +48,11 @@ public class ObstacleBase : MonoBehaviour
         if(col.gameObject.name == "Hider")
         {
             gameObject.SetActive(false);
+
+            if (canHitGround)
+            {
+                desroyParctles.Play();
+            }
         }
     }
 }

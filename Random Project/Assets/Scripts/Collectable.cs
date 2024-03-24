@@ -8,6 +8,8 @@ public class Collectable : MonoBehaviour
 
     GameObject myParticle;
 
+    [SerializeField] float batteryAmmount;
+
     private void Awake()
     {
         myParticle = transform.Find("Par").gameObject;
@@ -17,6 +19,13 @@ public class Collectable : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            LifeBattery lifeBattery = col.GetComponent<LifeBattery>();
+            if (lifeBattery)
+            {
+                lifeBattery.AddBattery(batteryAmmount);
+                FindObjectOfType<SpeedRunManager>().AddBattery();
+            }
+            
             Hide();
         }
     }

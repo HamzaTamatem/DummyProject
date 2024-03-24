@@ -56,7 +56,7 @@ public class HealthManager : MonoBehaviour
             AddCompleteHeart();
         }
 
-        Debug.Log($"List size of hearts: {heartImages.Count}");
+        //Debug.Log($"List size of hearts: {heartImages.Count}");
     }
 
     public void AddCompleteHeart()

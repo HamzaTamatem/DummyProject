@@ -33,12 +33,12 @@ public class TileManager : MonoBehaviour
         {
             if (Vector3.Distance(position, tile) < 1.2f)
             {
-                Debug.Log($"Closest tile position: {tile}");
+                //Debug.Log($"Closest tile position: {tile}");
                 return tile;
             }
         }
 
-        Debug.Log("Vector3.zero???");
+        //Debug.Log("Vector3.zero???");
         return Vector3.zero;
     }
 }

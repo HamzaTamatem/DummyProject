@@ -16,10 +16,9 @@ public class CloseGate : MonoBehaviour
             if (stopDetect)
                 return;
 
-            
             // pause player movement & input
             PlayerMovement playerMovement = col.gameObject.GetComponent<PlayerMovement>();
-            // playerMovement.PausePlayerMovement(shakeTime);
+            playerMovement.PausePlayerMovement(shakeTime);
             playerMovement.FreezePlayer(shakeTime);
             // playerMovement.PausePlayerInput(shakeTime);
             OpenCloseGates();

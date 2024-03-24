@@ -41,7 +41,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log(nameof(OnPointerDown));
+        //Debug.Log(nameof(OnPointerDown));
         isBeingHeld = true;
         switch (moveDirection)
         {
@@ -93,7 +93,7 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log(nameof(OnPointerEnter));
+        //Debug.Log(nameof(OnPointerEnter));
         switch (moveDirection)
         {
             case MoveDirection.Right:

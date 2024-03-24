@@ -4,9 +4,9 @@ using UnityEngine;
 public abstract class Enemy : Flashable
 {
     public int damage;
-    public int currentHealth;
+    public float currentHealth;
     
-    [SerializeField] private int maxHealth;
+    [SerializeField] public float maxHealth;
 
     [SerializeField] private GameObject deathParticles;
     // public abstract void GetHit(int amount);
@@ -18,11 +18,11 @@ public abstract class Enemy : Flashable
 
     public virtual void TakeDamage(int amount)
     {
-        Debug.Log(nameof(TakeDamage));
+        //Debug.Log(nameof(TakeDamage));
         currentHealth -= amount;
         
         Flash();
-        Debug.Log($"Current health is: {currentHealth}");
+        //Debug.Log($"Current health is: {currentHealth}");
     }
 
     private void OnTriggerEnter2D(Collider2D other)

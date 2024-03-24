@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class DialogueSystem : MonoBehaviour
@@ -20,6 +21,8 @@ public class DialogueSystem : MonoBehaviour
 
     bool canTalk;
 
+    [SerializeField] GameObject activeAfterDialogue;
+
     private void Awake()
     {
         sign = transform.Find("Sign").gameObject;
@@ -29,7 +32,7 @@ public class DialogueSystem : MonoBehaviour
     private void Update()
     {
         //Change input to match mobile input
-        if (canTalk && Input.GetMouseButtonDown(0))
+        if (canTalk)
         {
             switch (dialogueUI.language)
             {
@@ -52,7 +55,8 @@ public class DialogueSystem : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            sign.SetActive(true);
+            //sign.SetActive(true);
+            GetComponent<Collider2D>().enabled = false;
             canTalk = true;
         }
     }
@@ -66,7 +70,18 @@ public class DialogueSystem : MonoBehaviour
 
     private void StopTalking()
     {
+        PlayerMovement playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        playerMovement.StopPlayer(true);
+
         sign.SetActive(false);
         canTalk = false;
+    }
+
+    public void ActiveAfterDialogue()
+    {
+        if (!activeAfterDialogue)
+            return;
+
+        activeAfterDialogue.SetActive(true);
     }
 }
